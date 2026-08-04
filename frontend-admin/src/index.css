@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #10b981;
+  --color-primary-dark: #059669;
+  --color-secondary: #3b82f6;
+  --color-accent: #f97316;
+  --color-background: #ffffff;
+  --color-surface: #f9fafb;
+  --color-border: #e5e7eb;
+  --color-background-dark: #09090b;
+  --color-surface-dark: #18181b;
+  --color-border-dark: #27272a;
+}
+
+@custom-variant dark (&:is(.dark *));
+
+@layer base {
+  :root {
+    --bg: var(--color-background);
+    --surface: var(--color-surface);
+    --border: var(--color-border);
+    --text: #0f172a;
+    --text-muted: #64748b;
+  }
+
+  .dark {
+    --bg: var(--color-background-dark);
+    --surface: var(--color-surface-dark);
+    --border: var(--color-border-dark);
+    --text: #f8fafc;
+    --text-muted: #94a3b8;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/60 backdrop-blur-lg border border-white/20 shadow-sm;
+  }
+  .dark .glass {
+    @apply bg-zinc-900/60 border-white/5;
+  }
+  .glass-panel {
+    @apply bg-white/80 backdrop-blur-xl border border-zinc-200/50 shadow-lg;
+  }
+  .dark .glass-panel {
+    @apply bg-zinc-900/80 border-zinc-800/50 shadow-black/50;
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "portfolio-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev:frontend": "npm run dev --prefix frontend -- --port 5173",
+    "dev:admin": "npm run dev --prefix frontend-admin -- --port 5174",
+    "dev:backend": "npm run dev --prefix backend",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:all": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\" \"npm run dev:admin\"",
+    "seed:backend": "npm run seed --prefix backend",
+    "seed": "npm run seed:backend",
+    "build:frontend": "npm run build --prefix frontend",
+    "build:admin": "npm run build --prefix frontend-admin",
+    "build:backend": "npm run build --prefix backend",
+    "build": "npm run build:frontend && npm run build:admin && npm run build:backend"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
