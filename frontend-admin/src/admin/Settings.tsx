@@ -6,7 +6,7 @@ import { useGitHubSettings, useSaveSettings } from '../hooks/useAdmin';
 import { Link } from 'react-router-dom';
 
 export const AdminSettings: React.FC = () => {
-  const { data: settings, isLoading } = useGitHubSettings();
+  const { data: settings, isPending: isLoading } = useGitHubSettings();
   const { mutateAsync: saveSettings, isPending: isSaving } = useSaveSettings();
   const [githubUsername, setGithubUsername] = useState('');
   const [githubToken, setGithubToken] = useState('');

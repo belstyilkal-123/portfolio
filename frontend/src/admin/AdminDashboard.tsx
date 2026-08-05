@@ -8,8 +8,8 @@ import { Link } from 'react-router-dom';
 
 export const AdminDashboard: React.FC = () => {
   const { user } = useAuthStore();
-  const { data: adminStats, isLoading: statsLoading } = useAdminStats();
-  const { data: messages, isLoading: messagesLoading } = useAdminMessages();
+  const { data: adminStats, isPending: statsLoading } = useAdminStats();
+  const { data: messages, isPending: messagesLoading } = useAdminMessages();
 
   const stats = [
     {

@@ -13,7 +13,7 @@ export const Projects: React.FC = () => {
     }
   };
 
-  const { data: projectsData, isLoading } = useProjects();
+  const { data: projectsData, isPending: isLoading } = useProjects();
 
   if (isLoading) {
     return (

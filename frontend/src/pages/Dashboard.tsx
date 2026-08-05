@@ -8,7 +8,7 @@ import { useProjects } from '../hooks/useProjects';
 import { Link } from 'react-router-dom';
 
 export const Dashboard: React.FC = () => {
-  const { data: projectsData = [], isLoading: projectsLoading } = useProjects();
+  const { data: projectsData = [], isPending: projectsLoading } = useProjects();
 
   const summaryCards = [
     { label: 'Experience', value: '2+ years', detail: 'Real-world web development and internships' },

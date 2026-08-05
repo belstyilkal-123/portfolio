@@ -27,7 +27,7 @@ const Section: React.FC<{ title: string; icon: React.ReactNode; children: React.
 );
 
 export const Resume: React.FC = () => {
-  const { data: projectsData, isLoading: projectsLoading } = useProjects();
+  const { data: projectsData, isPending: projectsLoading } = useProjects();
 
   return (
     <div className="py-8">

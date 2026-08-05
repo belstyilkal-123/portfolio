@@ -5,7 +5,7 @@ import { Plus, Trash2, Loader2, ExternalLink, Edit3 } from 'lucide-react';
 import { GithubIcon } from '../components/icons';
 
 export const ManageProjects: React.FC = () => {
-  const { data: apiProjects, isLoading } = useProjects();
+  const { data: apiProjects, isPending: isLoading } = useProjects();
   const { mutate: deleteProject } = useDeleteProject();
   const { mutate: createProject, isPending: isCreating } = useCreateProject();
   const { mutate: updateProject, isPending: isUpdating } = useUpdateProject();

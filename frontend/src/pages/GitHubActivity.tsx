@@ -5,7 +5,7 @@ import { GithubIcon } from '../components/icons';
 import { useGitHubOverview } from '../hooks/useGitHubOverview';
 
 export const GitHubActivity: React.FC = () => {
-  const { data, isLoading } = useGitHubOverview();
+  const { data, isPending: isLoading } = useGitHubOverview();
 
   const activityData = [
     { day: 'Mon', commits: 4 },

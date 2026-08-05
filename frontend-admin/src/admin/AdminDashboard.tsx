@@ -6,8 +6,8 @@ import { useAdminMessages } from '../hooks/useAdmin';
 import { Link } from 'react-router-dom';
 
 export const AdminDashboard: React.FC = () => {
-  const { data: adminStats, isLoading: statsLoading } = useAdminStats();
-  const { data: messages, isLoading: messagesLoading } = useAdminMessages();
+  const { data: adminStats, isPending: statsLoading } = useAdminStats();
+  const { data: messages, isPending: messagesLoading } = useAdminMessages();
 
   const stats = [
     { label: 'Total Projects', value: statsLoading ? 'Loading...' : `${adminStats?.totalProjects ?? 0}`, icon: Briefcase, color: 'text-blue-500', bg: 'bg-blue-500/10' },

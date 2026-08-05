@@ -2,10 +2,10 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
-  LayoutDashboard, Home, User, Code, Briefcase, GraduationCap, 
+  Home, User, Code, Briefcase, GraduationCap, 
   Award, Trophy, Clock, FileText, Image, File, Wrench, 
   MessageSquare, BarChart, Download, Mail, Settings, 
-  ShieldCheck, LogOut, ChevronLeft, ChevronRight
+  LogOut, ChevronLeft, ChevronRight
 } from 'lucide-react';
 import { GithubIcon } from '../components/icons';
 import { useUIStore } from '../stores/useUIStore';

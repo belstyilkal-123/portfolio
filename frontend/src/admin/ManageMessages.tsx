@@ -3,7 +3,7 @@ import { useAdminMessages, useMarkMessageRead } from '../hooks/useAdmin';
 import { MailOpen, Loader2 } from 'lucide-react';
 
 export const ManageMessages: React.FC = () => {
-  const { data: messages, isLoading, isError } = useAdminMessages();
+  const { data: messages, isPending: isLoading, isError } = useAdminMessages();
   const { mutate: markAsRead } = useMarkMessageRead();
 
   if (isLoading) {

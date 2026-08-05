@@ -6,8 +6,8 @@ import { useGitHubSettings, useSaveSettings } from '../hooks/useAdmin';
 import { Link } from 'react-router-dom';
 
 export const AdminSettings: React.FC = () => {
-  const { data: settings, isLoading } = useGitHubSettings();
-  const { mutateAsync: saveSettings, isLoading: isSaving } = useSaveSettings();
+  const { data: settings, isPending } = useGitHubSettings();
+  const { mutateAsync: saveSettings, isPending: isSaving } = useSaveSettings();
   const [githubUsername, setGithubUsername] = useState('');
   const [githubToken, setGithubToken] = useState('');
   const [message, setMessage] = useState<string | null>(null);
@@ -73,7 +73,7 @@ export const AdminSettings: React.FC = () => {
               onChange={(e) => setGithubUsername(e.target.value)}
               placeholder="github.com/username"
               className="w-full rounded-2xl border border-border bg-surface px-4 py-3 text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-              disabled={isLoading}
+              disabled={isPending}
             />
           </div>
 
@@ -86,7 +86,7 @@ export const AdminSettings: React.FC = () => {
               onChange={(e) => setGithubToken(e.target.value)}
               placeholder="Personal access token (optional)"
               className="w-full rounded-2xl border border-border bg-surface px-4 py-3 text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-              disabled={isLoading}
+              disabled={isPending}
             />
             <p className="text-xs text-text-muted">
               A token is optional but helps avoid GitHub rate limits. Keep it private and don’t share it publicly.
@@ -104,7 +104,7 @@ export const AdminSettings: React.FC = () => {
 
           <button
             type="submit"
-            disabled={isLoading || isSaving}
+            disabled={isPending || isSaving}
             className="inline-flex items-center gap-2 rounded-2xl bg-primary px-6 py-3 text-white transition hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-60"
           >
             <Save size={16} />
