@@ -15,8 +15,16 @@
       "dest": "backend/src/server.ts"
     },
     {
-      "src": "/(.*)",
+      "src": "/assets/(.*)",
+      "dest": "frontend/dist/assets/$1"
+    },
+    {
+      "src": "/(favicon\\.ico|robots\\.txt|profile\\.jpg|.*\\.png|.*\\.svg|.*\\.webp)",
       "dest": "frontend/dist/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "frontend/dist/index.html"
     }
   ]
 }
