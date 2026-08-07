@@ -1,6 +1,7 @@
 import React from 'react';
 import { Menu, Sun, Moon, Monitor, Search, Bell, Download } from 'lucide-react';
 import { useUIStore } from '../stores/useUIStore';
+import { personalInfo } from '../data/portfolioData';
 
 
 export const Header: React.FC = () => {
@@ -15,12 +16,18 @@ export const Header: React.FC = () => {
   return (
     <header className="sticky top-0 z-30 flex items-center justify-between h-16 px-4 md:px-6 glass border-b">
       <div className="flex items-center gap-4">
+        {/* Mobile sidebar toggle */}
         <button 
-          onClick={toggleSidebar} 
+          onClick={() => toggleSidebar()} 
           className="md:hidden p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+          aria-label="Toggle navigation"
         >
           <Menu size={20} />
         </button>
+        {/* Brand name on mobile */}
+        <span className="md:hidden font-bold text-base bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+          {personalInfo.name.split(' ')[0]}
+        </span>
         <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-zinc-100 dark:bg-zinc-800/50 rounded-full text-sm text-text-muted">
           <Search size={16} />
           <input 
