@@ -33,7 +33,7 @@ export const Register: React.FC = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-bg to-surface dark:from-bg dark:to-surface-dark relative">
-      <a href="http://localhost:5173/" className="absolute top-8 left-8 flex items-center gap-2 text-text-muted hover:text-primary transition-colors">
+      <a href={import.meta.env.VITE_PORTFOLIO_URL || 'https://portfolio-gw8u-5bb57yatp-belsti-portfolio.vercel.app'} className="absolute top-8 left-8 flex items-center gap-2 text-text-muted hover:text-primary transition-colors">
         <ArrowLeft size={20} /> Back to Portfolio
       </a>
       <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="glass-panel p-8 md:p-12 rounded-3xl w-full max-w-md shadow-2xl border border-white/20 dark:border-zinc-800">
