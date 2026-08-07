@@ -58,7 +58,8 @@ function RootRoutes() {
   const { theme, setTheme } = useUIStore();
   React.useEffect(() => {
     setTheme(theme);
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setTheme]);
 
   return (
     <Routes>

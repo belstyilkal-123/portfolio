@@ -1,30 +1,17 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "frontend/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    }
-  ],
+  "buildCommand": "npm run build:frontend",
+  "outputDirectory": "frontend/dist",
+  "installCommand": "npm install && npm install --prefix frontend",
+  "framework": null,
   "routes": [
     {
       "src": "/api/(.*)",
       "dest": "backend/src/server.ts"
     },
     {
-      "src": "/assets/(.*)",
-      "dest": "frontend/dist/assets/$1"
-    },
-    {
-      "src": "/(favicon\\.ico|robots\\.txt|profile\\.jpg|.*\\.png|.*\\.svg|.*\\.webp)",
-      "dest": "frontend/dist/$1"
-    },
-    {
       "src": "/(.*)",
-      "dest": "frontend/dist/index.html"
+      "dest": "/index.html"
     }
   ]
 }
