@@ -1,0 +1,25 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "vercel",
+    "vite",
+    "VITE",
+    "env",
+    "onrender",
+    "axios",
+    "zustand",
+    "framer",
+    "lucide",
+    "tailwindcss",
+    "tsconfig",
+    "belstyilkal",
+    "belsti"
+  ],
+  "ignorePaths": [
+    "node_modules",
+    "dist",
+    ".git",
+    "package-lock.json"
+  ]
+}
