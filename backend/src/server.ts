@@ -9,6 +9,11 @@ import messageRoutes from './routes/messageRoutes';
 import adminRoutes from './routes/adminRoutes';
 import githubRoutes from './routes/githubRoutes';
 import settingRoutes from './routes/settingRoutes';
+import blogRoutes from './routes/blogRoutes';
+import skillRoutes from './routes/skillRoutes';
+import testimonialRoutes from './routes/testimonialRoutes';
+import resumeRoutes from './routes/resumeRoutes';
+import mediaRoutes from './routes/mediaRoutes';
 import { notFound, errorHandler } from './middlewares/errorMiddleware';
 
 dotenv.config();
@@ -57,6 +62,11 @@ app.use('/api/messages', messageRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/github', githubRoutes);
 app.use('/api/settings', settingRoutes);
+app.use('/api/blog', blogRoutes);
+app.use('/api/skills', skillRoutes);
+app.use('/api/testimonials', testimonialRoutes);
+app.use('/api/resume', resumeRoutes);
+app.use('/api/media', mediaRoutes);
 
 app.get('/', (req, res) => {
   res.send('Portfolio API is running...');

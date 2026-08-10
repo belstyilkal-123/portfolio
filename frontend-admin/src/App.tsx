@@ -6,6 +6,14 @@ import { Register } from './admin/Register';
 import { ManageProjects } from './admin/ManageProjects';
 import { ManageMessages } from './admin/ManageMessages';
 import { AdminSettings } from './admin/Settings';
+import { Analytics } from './admin/Analytics';
+import { ManageBlog } from './admin/ManageBlog';
+import { ManageSkills } from './admin/ManageSkills';
+import { ManageResume } from './admin/ManageResume';
+import { ManageTestimonials } from './admin/ManageTestimonials';
+import { ManageProfile } from './admin/ManageProfile';
+import { MediaLibrary } from './admin/MediaLibrary';
+import { Notifications } from './admin/Notifications';
 
 function App() {
   return (
@@ -17,6 +25,14 @@ function App() {
         <Route path="dashboard" element={<AdminDashboard />} />
         <Route path="projects" element={<ManageProjects />} />
         <Route path="messages" element={<ManageMessages />} />
+        <Route path="analytics" element={<Analytics />} />
+        <Route path="blog" element={<ManageBlog />} />
+        <Route path="skills" element={<ManageSkills />} />
+        <Route path="resume" element={<ManageResume />} />
+        <Route path="testimonials" element={<ManageTestimonials />} />
+        <Route path="profile" element={<ManageProfile />} />
+        <Route path="media" element={<MediaLibrary />} />
+        <Route path="notifications" element={<Notifications />} />
         <Route path="settings" element={<AdminSettings />} />
       </Route>
     </Routes>
