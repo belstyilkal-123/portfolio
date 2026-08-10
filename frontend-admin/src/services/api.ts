@@ -1,16 +1,33 @@
 import axios from 'axios';
 
-// Determine the API base URL cleanly
-// In dev: proxy to local backend
-// In prod: point to the Render-hosted backend
-const BASE_URL =
-  import.meta.env.VITE_API_URL ||
-  (import.meta.env.DEV
-    ? 'http://localhost:5000/api'
-    : 'https://portfolio-backend-5y1o.onrender.com/api');
+const PROD_BACKEND = 'https://portfolio-backend-5y1o.onrender.com/api';
+const DEV_BACKEND  = 'http://localhost:5000/api';
 
-// Strip any trailing slashes so axios path joining works correctly
-const baseURL = BASE_URL.replace(/\/+$/, '');
+/**
+ * Resolve the API base URL safely.
+ * - In development: use the local backend.
+ * - In production: prefer VITE_API_URL only if it is a valid absolute HTTP(S) URL,
+ *   otherwise fall back to the known Render backend URL.
+ *   This guards against Vercel passing an empty string, a placeholder, or a
+ *   wrongly-formatted value that would cause axios to build nonsense URLs.
+ */
+function resolveBaseURL(): string {
+  if (import.meta.env.DEV) return DEV_BACKEND;
+
+  const envVal = (import.meta.env.VITE_API_URL ?? '').trim();
+  try {
+    const parsed = new URL(envVal);
+    if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
+      return envVal.replace(/\/+$/, '');
+    }
+  } catch {
+    // not a valid absolute URL – fall through
+  }
+
+  return PROD_BACKEND;
+}
+
+const baseURL = resolveBaseURL();
 
 console.info('[admin] API baseURL:', baseURL);
 
