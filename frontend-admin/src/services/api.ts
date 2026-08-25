@@ -14,7 +14,14 @@ const DEV_BACKEND  = 'http://localhost:5000/api';
 function resolveBaseURL(): string {
   if (import.meta.env.DEV) return DEV_BACKEND;
 
-  const envVal = (import.meta.env.VITE_API_URL ?? '').trim();
+  let envVal = (import.meta.env.VITE_API_URL ?? '').trim();
+  
+  // Clean up potential markdown link or bracket formatting
+  const match = envVal.match(/\[?(https?:\/\/[^\]\)]+)\]?/);
+  if (match) {
+    envVal = match[1];
+  }
+
   try {
     const parsed = new URL(envVal);
     if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
