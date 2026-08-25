@@ -10,6 +10,6 @@ router.route('/')
 router.route('/upload')
   .post(protect, admin, uploadMedia);
 
-router.delete('/*', protect, admin, deleteMedia);
+router.delete('/*path', protect, admin, deleteMedia);
 
 export default router;
