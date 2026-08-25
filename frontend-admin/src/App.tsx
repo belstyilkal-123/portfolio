@@ -3,6 +3,8 @@ import { AdminLayout } from './admin/AdminLayout';
 import { AdminDashboard } from './admin/AdminDashboard';
 import { Login } from './admin/Login';
 import { Register } from './admin/Register';
+import { ForgotPassword } from './admin/ForgotPassword';
+import { ResetPassword } from './admin/ResetPassword';
 import { ManageProjects } from './admin/ManageProjects';
 import { ManageMessages } from './admin/ManageMessages';
 import { AdminSettings } from './admin/Settings';
@@ -21,6 +23,8 @@ function App() {
       <Route path="/" element={<Navigate to="/admin/login" replace />} />
       <Route path="/admin/login" element={<Login />} />
       <Route path="/admin/register" element={<Register />} />
+      <Route path="/admin/forgot-password" element={<ForgotPassword />} />
+      <Route path="/admin/reset-password/:token" element={<ResetPassword />} />
       <Route path="/admin" element={<AdminLayout />}>
         <Route path="dashboard" element={<AdminDashboard />} />
         <Route path="projects" element={<ManageProjects />} />

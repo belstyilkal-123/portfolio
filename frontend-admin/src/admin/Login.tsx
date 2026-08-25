@@ -53,7 +53,10 @@ export const Login: React.FC = () => {
             </div>
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-text-muted" htmlFor="password">Password</label>
+            <div className="flex justify-between items-center">
+              <label className="text-sm font-medium text-text-muted" htmlFor="password">Password</label>
+              <Link to="/admin/forgot-password" className="text-xs font-medium text-primary hover:underline">Forgot password?</Link>
+            </div>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" size={18} />
               <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="w-full pl-10 pr-4 py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-text" placeholder="••••••••" />
