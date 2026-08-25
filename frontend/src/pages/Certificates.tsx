@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Award, Loader2 } from 'lucide-react';
-import api from '../api/client';
+import { apiClient as api } from '../api/client';
 
 export const Certificates: React.FC = () => {
   const [certificatesData, setCertificatesData] = useState<any[]>([]);

@@ -53,7 +53,7 @@ function PortfolioRoutes() {
   );
 }
 
-import api from './api/client';
+import { apiClient as api } from './api/client';
 import { useSettingsStore } from './stores/useSettingsStore';
 
 function RootRoutes() {

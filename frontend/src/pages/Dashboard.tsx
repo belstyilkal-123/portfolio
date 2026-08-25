@@ -55,11 +55,14 @@ export const Dashboard: React.FC = () => {
   const { data: projectsData = [], isPending: projectsLoading } = useProjects();
   const { getSetting } = useSettingsStore();
 
-  const name = getSetting('name', 'Belstie Yilkal');
+    const name = getSetting('name', 'Belstie Yilkal');
   const tagline = getSetting('tagline', 'Building reliable web and IoT products with clean code, strong architecture, and practical business value.');
   const location = getSetting('location', 'Bahir Dar, Ethiopia');
-  const showHero = getSetting('showHero', 'true') !== 'false';
-  const showFeaturedProjects = getSetting('showFeaturedProjects', 'true') !== 'false';
+  const role = getSetting('role', 'Software Developer');
+  const github = getSetting('github', 'https://github.com/belstyilkal-123');
+  const linkedin = getSetting('linkedin', '');
+  const telegram = getSetting('telegram', 'https://t.me/manchilot123');
+  const email = getSetting('email', 'belstyilkal@gmail.com');
 
   const summaryCards = [
     { label: 'Experience', value: '2+ years', detail: 'Real-world web development and internships' },
@@ -103,12 +106,12 @@ export const Dashboard: React.FC = () => {
                 <TypeWriter words={typeWords} />
               </h1>
               <h2 className="text-2xl md:text-3xl text-text-muted font-medium mt-4">
-                {personalInfo.role}
+                {role}
               </h2>
             </div>
 
             <p className="text-lg text-text-muted max-w-2xl leading-relaxed">
-              {personalInfo.tagline}
+              {tagline}
             </p>
 
             <div className="grid sm:grid-cols-2 gap-4">
@@ -132,24 +135,24 @@ export const Dashboard: React.FC = () => {
 
             <div className="flex flex-wrap items-center gap-4 pt-8 border-t border-border dark:border-border-dark">
               <p className="text-sm text-text-muted font-medium">Connect with me:</p>
-              <a href={personalInfo.github} target="_blank" rel="noreferrer" className="p-2 bg-surface dark:bg-surface-dark border border-border dark:border-border-dark rounded-full hover:text-primary transition-colors hover:scale-110 transform duration-200">
+              <a href={github} target="_blank" rel="noreferrer" className="p-2 bg-surface dark:bg-surface-dark border border-border dark:border-border-dark rounded-full hover:text-primary transition-colors hover:scale-110 transform duration-200">
                 <GithubIcon size={20} />
               </a>
-              {personalInfo.linkedin && (
-                <a href={personalInfo.linkedin} target="_blank" rel="noreferrer" className="p-2 bg-surface dark:bg-surface-dark border border-border dark:border-border-dark rounded-full hover:text-secondary transition-colors hover:scale-110 transform duration-200">
+              {linkedin && (
+                <a href={linkedin} target="_blank" rel="noreferrer" className="p-2 bg-surface dark:bg-surface-dark border border-border dark:border-border-dark rounded-full hover:text-secondary transition-colors hover:scale-110 transform duration-200">
                   <span className="sr-only">LinkedIn</span>
                   <span className="text-lg font-bold px-0.5">in</span>
                 </a>
               )}
-              {personalInfo.telegram && (
-                <a href={personalInfo.telegram} target="_blank" rel="noreferrer" className="p-2 bg-surface dark:bg-surface-dark border border-border dark:border-border-dark rounded-full hover:text-accent transition-colors hover:scale-110 transform duration-200">
+              {telegram && (
+                <a href={telegram} target="_blank" rel="noreferrer" className="p-2 bg-surface dark:bg-surface-dark border border-border dark:border-border-dark rounded-full hover:text-accent transition-colors hover:scale-110 transform duration-200">
                   <span className="sr-only">Telegram</span>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248-1.97 9.289c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.932z"/>
                   </svg>
                 </a>
               )}
-              <a href={`mailto:${personalInfo.email}`} className="p-2 bg-surface dark:bg-surface-dark border border-border dark:border-border-dark rounded-full hover:text-accent transition-colors hover:scale-110 transform duration-200">
+              <a href={`mailto:${email}`} className="p-2 bg-surface dark:bg-surface-dark border border-border dark:border-border-dark rounded-full hover:text-accent transition-colors hover:scale-110 transform duration-200">
                 <Mail size={20} />
               </a>
             </div>
@@ -182,8 +185,8 @@ export const Dashboard: React.FC = () => {
                     <span className="absolute bottom-2 right-2 w-4 h-4 rounded-full bg-emerald-400 border-2 border-white dark:border-zinc-900 shadow-md"></span>
                   </div>
                   <div className="text-center">
-                    <p className="font-bold text-lg">{personalInfo.name}</p>
-                    <p className="text-sm text-text-muted">{personalInfo.role}</p>
+                    <p className="font-bold text-lg">{name}</p>
+                    <p className="text-sm text-text-muted">{role}</p>
                   </div>
                 </div>
 
@@ -206,7 +209,7 @@ export const Dashboard: React.FC = () => {
                   </div>
                   <div>
                     <p className="text-xs uppercase tracking-[0.25em] text-text-muted">Location</p>
-                    <p className="font-semibold text-sm mt-0.5">{personalInfo.location}</p>
+                    <p className="font-semibold text-sm mt-0.5">{location}</p>
                   </div>
                 </div>
 

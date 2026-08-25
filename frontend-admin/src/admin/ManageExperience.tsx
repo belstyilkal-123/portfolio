@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
-import { Plus, Trash2, Loader2, Edit3, ArrowUp, ArrowDown, Briefcase } from 'lucide-react';
+import { Plus, Trash2, Loader2, Edit3, ArrowUp, ArrowDown } from 'lucide-react';
 
 export const ManageExperience: React.FC = () => {
   const [items, setItems] = useState<any[]>([]);

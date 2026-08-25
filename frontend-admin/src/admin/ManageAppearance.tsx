@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
 import { Loader2, Save, Eye, EyeOff, LayoutTemplate, Palette } from 'lucide-react';
-import { useAuthStore } from '../stores/useAuthStore';
+
 
 export const ManageAppearance: React.FC = () => {
   const [settings, setSettings] = useState<Record<string, string>>({});
@@ -83,7 +83,7 @@ export const ManageAppearance: React.FC = () => {
       </div>
 
       {toast && (
-        <div className={\`mb-6 p-4 rounded-xl flex items-center \${toast.type === 'success' ? 'bg-emerald-500/10 text-emerald-600 border border-emerald-500/20' : 'bg-red-500/10 text-red-600 border border-red-500/20'}\`}>
+        <div className={`mb-6 p-4 rounded-xl flex items-center ${toast.type === 'success' ? 'bg-emerald-500/10 text-emerald-600 border border-emerald-500/20' : 'bg-red-500/10 text-red-600 border border-red-500/20'}`}>
           {toast.message}
         </div>
       )}
@@ -167,9 +167,9 @@ export const ManageAppearance: React.FC = () => {
             {sectionsToToggle.map(section => {
               const isHidden = hiddenSections.includes(section.toLowerCase());
               return (
-                <label key={section} className={\`flex items-center justify-between p-4 rounded-xl border \${isHidden ? 'border-red-500/30 bg-red-500/5' : 'border-emerald-500/30 bg-emerald-500/5'} cursor-pointer transition-colors\`}>
+                <label key={section} className={`flex items-center justify-between p-4 rounded-xl border ${isHidden ? 'border-red-500/30 bg-red-500/5' : 'border-emerald-500/30 bg-emerald-500/5'} cursor-pointer transition-colors`}>
                   <span className="font-medium text-sm">{section}</span>
-                  <div onClick={() => toggleSection(section)} className={\`p-1.5 rounded-md \${isHidden ? 'bg-red-500/20 text-red-500' : 'bg-emerald-500/20 text-emerald-500'}\`}>
+                  <div onClick={() => toggleSection(section)} className={`p-1.5 rounded-md ${isHidden ? 'bg-red-500/20 text-red-500' : 'bg-emerald-500/20 text-emerald-500'}`}>
                     {isHidden ? <EyeOff size={16} /> : <Eye size={16} />}
                   </div>
                 </label>

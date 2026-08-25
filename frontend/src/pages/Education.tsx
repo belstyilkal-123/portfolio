@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import * as LucideIcons from 'lucide-react';
 import { Loader2 } from 'lucide-react';
-import api from '../api/client';
+import { apiClient as api } from '../api/client';
 
 export const Education: React.FC = () => {
   const [educationData, setEducationData] = useState<any[]>([]);
