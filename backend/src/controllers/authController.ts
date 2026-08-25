@@ -54,3 +54,23 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
     res.status(400).json({ message: 'Invalid user data' });
   }
 };
+
+// @desc    Temporary route to reset admin password
+// @route   POST /api/auth/reset-password
+// @access  Public
+export const resetPassword = async (req: Request, res: Response): Promise<void> => {
+  const { newPassword } = req.body;
+  if (!newPassword) {
+    res.status(400).json({ message: 'newPassword is required' });
+    return;
+  }
+  
+  const admin = await User.findOne({ isAdmin: true });
+  if (admin) {
+    admin.password = newPassword;
+    await admin.save();
+    res.json({ message: 'Admin password reset successfully' });
+  } else {
+    res.status(404).json({ message: 'No admin user found' });
+  }
+};
