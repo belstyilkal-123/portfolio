@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
-import { Loader2, Save, Eye, EyeOff, LayoutTemplate, Palette } from 'lucide-react';
+import { Loader2, Save, Eye, EyeOff, LayoutTemplate, Palette, Sun, Moon, Monitor, Check } from 'lucide-react';
 
 
 export const ManageAppearance: React.FC = () => {
@@ -37,7 +37,7 @@ export const ManageAppearance: React.FC = () => {
     setIsSaving(true);
     setToast(null);
 
-    const keysToSave = ['accentColor', 'showHero', 'showFeaturedProjects', 'hiddenSections'];
+    const keysToSave = ['accentColor', 'theme', 'showHero', 'showFeaturedProjects', 'hiddenSections'];
     
     try {
       await Promise.all(
@@ -98,8 +98,8 @@ export const ManageAppearance: React.FC = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-text-muted">Accent Color (Hex Code)</label>
+            <div className="space-y-2 md:col-span-2">
+                <label className="text-sm font-medium text-text-muted">Accent Color (Hex Code)</label>
               <div className="flex gap-2 items-center">
                 <input 
                   type="color" 
@@ -117,10 +117,52 @@ export const ManageAppearance: React.FC = () => {
               </div>
             </div>
             
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-text-muted">Light/Dark Mode (Coming soon)</label>
-              <p className="text-xs text-text-muted mt-2">Currently managed automatically by the user's system preferences or the theme toggle on the public site.</p>
-            </div>
+            <div className="space-y-4 md:col-span-2 mt-4">
+                <label className="text-sm font-medium text-text">Theme</label>
+                <div className="grid grid-cols-3 gap-4">
+                  <button
+                    type="button"
+                    onClick={() => handleChange('theme', 'light')}
+                    className={`relative flex flex-col items-center justify-center p-6 rounded-xl border transition-all ${
+                      (settings.theme || 'dark') === 'light' 
+                        ? 'border-primary bg-primary/5 text-primary' 
+                        : 'border-white/10 hover:border-white/20 text-text-muted'
+                    }`}
+                  >
+                    <Sun size={24} className="mb-3" />
+                    <span className="font-medium">Light</span>
+                    {(settings.theme || 'dark') === 'light' && <Check size={16} className="mt-2 text-primary" />}
+                  </button>
+                  
+                  <button
+                    type="button"
+                    onClick={() => handleChange('theme', 'dark')}
+                    className={`relative flex flex-col items-center justify-center p-6 rounded-xl border transition-all ${
+                      (settings.theme || 'dark') === 'dark' 
+                        ? 'border-primary bg-primary/5 text-primary' 
+                        : 'border-white/10 hover:border-white/20 text-text-muted'
+                    }`}
+                  >
+                    <Moon size={24} className="mb-3" />
+                    <span className="font-medium">Dark</span>
+                    {(settings.theme || 'dark') === 'dark' && <Check size={16} className="mt-2 text-primary" />}
+                  </button>
+                  
+                  <button
+                    type="button"
+                    onClick={() => handleChange('theme', 'system')}
+                    className={`relative flex flex-col items-center justify-center p-6 rounded-xl border transition-all ${
+                      (settings.theme || 'dark') === 'system' 
+                        ? 'border-primary bg-primary/5 text-primary' 
+                        : 'border-white/10 hover:border-white/20 text-text-muted'
+                    }`}
+                  >
+                    <Monitor size={24} className="mb-3" />
+                    <span className="font-medium">System</span>
+                    {(settings.theme || 'dark') === 'system' && <Check size={16} className="mt-2 text-primary" />}
+                  </button>
+                </div>
+              </div>
           </div>
         </div>
 

@@ -75,8 +75,12 @@ function RootRoutes() {
         
         // Apply Accent Color
         if (settingsMap.accentColor) {
-          // Add style tag or set style variables
           document.documentElement.style.setProperty('--color-primary', settingsMap.accentColor);
+        }
+        
+        // Apply Theme
+        if (settingsMap.theme) {
+          setTheme(settingsMap.theme);
         }
       } catch (error) {
         console.error('Failed to fetch settings', error);
