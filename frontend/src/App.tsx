@@ -53,11 +53,37 @@ function PortfolioRoutes() {
   );
 }
 
+import api from './api/client';
+import { useSettingsStore } from './stores/useSettingsStore';
+
 function RootRoutes() {
-  // Initialize theme on mount
   const { theme, setTheme } = useUIStore();
+  const { setSettings } = useSettingsStore();
+
   React.useEffect(() => {
     setTheme(theme);
+    
+    // Fetch global settings
+    const fetchSettings = async () => {
+      try {
+        const res = await api.get('/settings');
+        const settingsMap = (res.data || []).reduce((acc: any, s: any) => {
+          acc[s.key] = s.value;
+          return acc;
+        }, {});
+        setSettings(settingsMap);
+        
+        // Apply Accent Color
+        if (settingsMap.accentColor) {
+          // Add style tag or set style variables
+          document.documentElement.style.setProperty('--color-primary', settingsMap.accentColor);
+        }
+      } catch (error) {
+        console.error('Failed to fetch settings', error);
+      }
+    };
+    
+    fetchSettings();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setTheme]);
 

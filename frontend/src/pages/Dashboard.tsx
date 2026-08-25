@@ -3,9 +3,9 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Download, Mail, MapPin } from 'lucide-react';
 import { GithubIcon } from '../components/icons';
 import { SEO } from '../components/SEO';
-import { personalInfo } from '../data/portfolioData';
 import { useProjects } from '../hooks/useProjects';
 import { Link } from 'react-router-dom';
+import { useSettingsStore } from '../stores/useSettingsStore';
 
 // --- TypeWriter Component ---
 const TypeWriter: React.FC<{ words: string[]; speed?: number; pause?: number }> = ({
@@ -53,6 +53,13 @@ const TypeWriter: React.FC<{ words: string[]; speed?: number; pause?: number }> 
 // --- Dashboard ---
 export const Dashboard: React.FC = () => {
   const { data: projectsData = [], isPending: projectsLoading } = useProjects();
+  const { getSetting } = useSettingsStore();
+
+  const name = getSetting('name', 'Belstie Yilkal');
+  const tagline = getSetting('tagline', 'Building reliable web and IoT products with clean code, strong architecture, and practical business value.');
+  const location = getSetting('location', 'Bahir Dar, Ethiopia');
+  const showHero = getSetting('showHero', 'true') !== 'false';
+  const showFeaturedProjects = getSetting('showFeaturedProjects', 'true') !== 'false';
 
   const summaryCards = [
     { label: 'Experience', value: '2+ years', detail: 'Real-world web development and internships' },
@@ -62,7 +69,7 @@ export const Dashboard: React.FC = () => {
   ];
 
   const typeWords = [
-    personalInfo.name,
+    name,
     'a Full-Stack Dev',
     'an IoT Builder',
     'a Problem Solver',

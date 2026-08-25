@@ -10,6 +10,8 @@ import {
 import { GithubIcon } from '../components/icons';
 import { useUIStore } from '../stores/useUIStore';
 
+import { useSettingsStore } from '../stores/useSettingsStore';
+
 const menuGroups = [
   {
     label: 'Main',
@@ -68,6 +70,7 @@ const menuGroups = [
 
 export const Sidebar: React.FC = () => {
   const { isSidebarOpen, toggleSidebar } = useUIStore();
+  const { isSectionHidden } = useSettingsStore();
 
   return (
     <motion.aside
@@ -101,7 +104,11 @@ export const Sidebar: React.FC = () => {
 
       {/* Nav Groups */}
       <div className="flex-1 overflow-y-auto overflow-x-hidden py-3 scrollbar-thin">
-        {menuGroups.map((group, groupIdx) => (
+        {menuGroups.map((group, groupIdx) => {
+          const visibleItems = group.items.filter(item => !isSectionHidden(item.label));
+          if (visibleItems.length === 0) return null;
+          
+          return (
           <div key={group.label}>
             {/* Group label — only shown when sidebar is open */}
             <AnimatePresence>
@@ -125,8 +132,9 @@ export const Sidebar: React.FC = () => {
               ) : null}
             </AnimatePresence>
 
-            <ul className="space-y-0.5 px-3">
-              {group.items.map((item) => (
+            {/* Nav Items */}
+            <ul className="space-y-1 px-3">
+              {visibleItems.map((item) => (
                 <li key={item.path}>
                   <NavLink
                     to={item.path}
@@ -173,9 +181,10 @@ export const Sidebar: React.FC = () => {
                   </NavLink>
                 </li>
               ))}
-            </ul>
+              </ul>
           </div>
-        ))}
+        );
+      })}
       </div>
 
       {/* Bottom: Settings + Logout */}
