@@ -89,12 +89,8 @@ export const forgotPassword = async (req: Request, res: Response): Promise<void>
 
     res.status(200).json({ success: true, data: 'Email sent' });
   } catch (error) {
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpire = undefined;
-    await user.save();
-    
     // Fallback: If email fails to send (e.g. no credentials in .env), we print the URL to the console
-    // This allows the admin to reset the password during development or if SMTP isn't configured
+    // We intentionally DO NOT clear the token here so the admin can still use the link from the logs
     console.warn('Failed to send email. Reset URL is:', resetUrl);
     res.status(200).json({ success: true, data: 'Email sending failed, check server logs for link' });
   }
