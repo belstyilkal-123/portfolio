@@ -16,6 +16,9 @@ import { ManageTestimonials } from './admin/ManageTestimonials';
 import { ManageProfile } from './admin/ManageProfile';
 import { MediaLibrary } from './admin/MediaLibrary';
 import { Notifications } from './admin/Notifications';
+import { ManageExperience } from './admin/ManageExperience';
+import { ManageEducation } from './admin/ManageEducation';
+import { ManageCertificates } from './admin/ManageCertificates';
 
 function App() {
   return (
@@ -38,6 +41,9 @@ function App() {
         <Route path="media" element={<MediaLibrary />} />
         <Route path="notifications" element={<Notifications />} />
         <Route path="settings" element={<AdminSettings />} />
+        <Route path="experience" element={<ManageExperience />} />
+        <Route path="education" element={<ManageEducation />} />
+        <Route path="certificates" element={<ManageCertificates />} />
       </Route>
     </Routes>
   );

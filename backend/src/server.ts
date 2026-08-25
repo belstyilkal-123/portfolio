@@ -14,6 +14,9 @@ import skillRoutes from './routes/skillRoutes';
 import testimonialRoutes from './routes/testimonialRoutes';
 import resumeRoutes from './routes/resumeRoutes';
 import mediaRoutes from './routes/mediaRoutes';
+import experienceRoutes from './routes/experienceRoutes';
+import educationRoutes from './routes/educationRoutes';
+import certificateRoutes from './routes/certificateRoutes';
 import { notFound, errorHandler } from './middlewares/errorMiddleware';
 
 dotenv.config();
@@ -67,6 +70,9 @@ app.use('/api/skills', skillRoutes);
 app.use('/api/testimonials', testimonialRoutes);
 app.use('/api/resume', resumeRoutes);
 app.use('/api/media', mediaRoutes);
+app.use('/api/experience', experienceRoutes);
+app.use('/api/education', educationRoutes);
+app.use('/api/certificates', certificateRoutes);
 
 app.get('/', (req, res) => {
   res.send('Portfolio API is running...');

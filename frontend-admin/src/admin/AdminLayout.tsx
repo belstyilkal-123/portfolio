@@ -3,7 +3,7 @@ import { Outlet, Navigate, Link, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../stores/useAuthStore';
 import { 
   LogOut, LayoutDashboard, Briefcase, Settings, MessageSquare, 
-  BarChart2, PenSquare, Zap, FileText, Star, UserCircle, Image, Bell 
+  BarChart2, PenSquare, Zap, FileText, Star, UserCircle, Image, Bell, GraduationCap, Award
 } from 'lucide-react';
 
 export const AdminLayout: React.FC = () => {
@@ -21,15 +21,18 @@ export const AdminLayout: React.FC = () => {
 
   const navItems = [
     { name: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
-    { name: 'Projects', path: '/admin/projects', icon: Briefcase },
-    { name: 'Messages', path: '/admin/messages', icon: MessageSquare },
-    { name: 'Analytics', path: '/admin/analytics', icon: BarChart2 },
-    { name: 'Blog', path: '/admin/blog', icon: PenSquare },
-    { name: 'Skills', path: '/admin/skills', icon: Zap },
-    { name: 'Resume', path: '/admin/resume', icon: FileText },
-    { name: 'Testimonials', path: '/admin/testimonials', icon: Star },
     { name: 'Profile', path: '/admin/profile', icon: UserCircle },
+    { name: 'Projects', path: '/admin/projects', icon: Briefcase },
+    { name: 'Skills', path: '/admin/skills', icon: Zap },
+    { name: 'Experience', path: '/admin/experience', icon: Briefcase },
+    { name: 'Education', path: '/admin/education', icon: GraduationCap },
+    { name: 'Certificates', path: '/admin/certificates', icon: Award },
+    { name: 'Resume', path: '/admin/resume', icon: FileText },
+    { name: 'Blog', path: '/admin/blog', icon: PenSquare },
+    { name: 'Messages', path: '/admin/messages', icon: MessageSquare },
+    { name: 'Testimonials', path: '/admin/testimonials', icon: Star },
     { name: 'Media', path: '/admin/media', icon: Image },
+    { name: 'Analytics', path: '/admin/analytics', icon: BarChart2 },
     { name: 'Notifications', path: '/admin/notifications', icon: Bell },
     { name: 'Settings', path: '/admin/settings', icon: Settings }
   ];
