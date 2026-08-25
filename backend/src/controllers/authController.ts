@@ -92,7 +92,7 @@ export const forgotPassword = async (req: Request, res: Response): Promise<void>
     // Fallback: If email fails to send (e.g. no credentials in .env), we print the URL to the console
     // We intentionally DO NOT clear the token here so the admin can still use the link from the logs
     console.warn('Failed to send email. Reset URL is:', resetUrl);
-    res.status(200).json({ success: true, data: 'Email sending failed, check server logs for link' });
+    res.status(200).json({ success: true, data: `Email sending failed, but here is your fallback reset link: ${resetUrl}` });
   }
 };
 
