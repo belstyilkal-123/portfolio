@@ -81,7 +81,6 @@ export const AdminSettings: React.FC = () => {
 
   const [settings, setSettings] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
   const [toast, setToast] = useState<{message: string, type: 'success' | 'error'} | null>(null);
 
   useEffect(() => {
@@ -125,31 +124,21 @@ export const AdminSettings: React.FC = () => {
     }
   };
 
-  const handleChange = (key: string, value: string | boolean) => {
-    setSettings(prev => ({ ...prev, [key]: value.toString() }));
-  };
-
-  const handleSubmit = async () => {
-    setIsSaving(true);
-    setToast(null);
-
-    const keysToSave = ['accentColor', 'theme', 'showHero', 'showFeaturedProjects', 'hiddenSections'];
+  const handleChange = async (key: string, value: string | boolean) => {
+    const stringValue = value.toString();
+    setSettings(prev => ({ ...prev, [key]: stringValue }));
     
+    // Auto-save setting
     try {
-      await Promise.all(
-        keysToSave.map(key => 
-          api.post('/settings', { key, value: settings[key] || '' })
-        )
-      );
-      setToast({ message: 'Appearance settings updated successfully', type: 'success' });
-      setTimeout(() => setToast(null), 3000);
+      await api.post('/settings', { key, value: stringValue });
+      // Show temporary toast if needed or just silently succeed
     } catch (error) {
-      console.error(error);
-      setToast({ message: 'Error updating appearance', type: 'error' });
-    } finally {
-      setIsSaving(false);
+      console.error(`Failed to auto-save ${key}:`, error);
+      setToast({ message: `Error saving ${key}`, type: 'error' });
     }
   };
+
+
 
   if (isLoading) {
     return <div className="flex justify-center p-12"><Loader2 className="animate-spin text-primary w-8 h-8" /></div>;
@@ -277,12 +266,7 @@ export const AdminSettings: React.FC = () => {
           </SettingSection>
         </motion.div>
 
-        <div className="flex justify-end pt-2 pb-10">
-          <button type="button" onClick={handleSubmit} disabled={isSaving} className="px-6 py-3 bg-emerald-500 text-white rounded-xl hover:bg-emerald-600 transition-all flex items-center gap-2 font-medium">
-            {isSaving ? <Loader2 className="animate-spin" size={18} /> : null} Save Appearance Settings
-          </button>
-        </div>
-
+        {/* Auto-saved indicator could go here if needed */}
       </motion.div>
     </div>
   );
