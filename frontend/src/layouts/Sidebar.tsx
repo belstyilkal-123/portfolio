@@ -49,7 +49,6 @@ const menuGroups = [
     label: 'Extras',
     items: [
       { path: '/services', icon: Wrench, label: 'Services' },
-      { path: '/testimonials', icon: MessageSquare, label: 'Testimonials' },
     ],
   },
   {

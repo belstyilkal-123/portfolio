@@ -3,11 +3,7 @@ import Setting from '../models/Setting';
 
 export const getSettings = async (req: Request, res: Response): Promise<void> => {
   const settings = await Setting.find().lean();
-  const result: Record<string, string> = {};
-  settings.forEach((setting) => {
-    result[setting.key] = setting.value;
-  });
-  res.json(result);
+  res.json(settings);
 };
 
 export const upsertSetting = async (req: Request, res: Response): Promise<void> => {

@@ -12,14 +12,12 @@ import { Analytics } from './admin/Analytics';
 import { ManageBlog } from './admin/ManageBlog';
 import { ManageSkills } from './admin/ManageSkills';
 import { ManageResume } from './admin/ManageResume';
-import { ManageTestimonials } from './admin/ManageTestimonials';
 import { ManageProfile } from './admin/ManageProfile';
 import { MediaLibrary } from './admin/MediaLibrary';
 import { Notifications } from './admin/Notifications';
 import { ManageExperience } from './admin/ManageExperience';
 import { ManageEducation } from './admin/ManageEducation';
 import { ManageCertificates } from './admin/ManageCertificates';
-import { ManageAppearance } from './admin/ManageAppearance';
 
 function App() {
   return (
@@ -37,12 +35,10 @@ function App() {
         <Route path="blog" element={<ManageBlog />} />
         <Route path="skills" element={<ManageSkills />} />
         <Route path="resume" element={<ManageResume />} />
-        <Route path="testimonials" element={<ManageTestimonials />} />
         <Route path="profile" element={<ManageProfile />} />
         <Route path="media" element={<MediaLibrary />} />
         <Route path="notifications" element={<Notifications />} />
         <Route path="settings" element={<AdminSettings />} />
-        <Route path="appearance" element={<ManageAppearance />} />
         <Route path="experience" element={<ManageExperience />} />
         <Route path="education" element={<ManageEducation />} />
         <Route path="certificates" element={<ManageCertificates />} />

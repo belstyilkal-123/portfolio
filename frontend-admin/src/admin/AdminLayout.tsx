@@ -10,6 +10,21 @@ export const AdminLayout: React.FC = () => {
   const { user, logout } = useAuthStore();
   const location = useLocation();
 
+  const [theme, setTheme] = React.useState(localStorage.getItem('theme') || 'light');
+  
+  React.useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  };
+
   if (!user || !user.isAdmin) {
     return <Navigate to="/admin/login" replace />;
   }
@@ -30,10 +45,8 @@ export const AdminLayout: React.FC = () => {
     { name: 'Resume', path: '/admin/resume', icon: FileText },
     { name: 'Blog', path: '/admin/blog', icon: PenSquare },
     { name: 'Messages', path: '/admin/messages', icon: MessageSquare },
-    { name: 'Testimonials', path: '/admin/testimonials', icon: Star },
     { name: 'Media', path: '/admin/media', icon: Image },
     { name: 'Analytics', path: '/admin/analytics', icon: BarChart2 },
-    { name: 'Appearance', path: '/admin/appearance', icon: Palette },
     { name: 'Notifications', path: '/admin/notifications', icon: Bell },
     { name: 'Settings', path: '/admin/settings', icon: Settings }
   ];
@@ -61,9 +74,20 @@ export const AdminLayout: React.FC = () => {
           </button>
         </div>
       </aside>
-      <main className="flex-1 ml-64 p-8 min-h-screen relative">
-        <div className="max-w-6xl mx-auto">
-          <Outlet />
+      <main className="flex-1 ml-64 min-h-screen flex flex-col relative">
+        <header className="h-16 flex items-center justify-end px-8 border-b border-border dark:border-border-dark shrink-0">
+          <button 
+            onClick={toggleTheme}
+            className="p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+            title="Toggle Theme"
+          >
+            {theme === 'light' ? <span>🌙</span> : <span>☀️</span>}
+          </button>
+        </header>
+        <div className="p-8 flex-1">
+          <div className="max-w-6xl mx-auto">
+            <Outlet />
+          </div>
         </div>
       </main>
     </div>

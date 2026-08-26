@@ -16,7 +16,6 @@ import { Certificates } from './pages/Certificates';
 import { Gallery } from './pages/Gallery';
 import { Achievements } from './pages/Achievements';
 import { Resume } from './pages/Resume';
-import { Testimonials } from './pages/Testimonials';
 import { GitHubActivity } from './pages/GitHubActivity';
 import { Statistics } from './pages/Statistics';
 import { Downloads } from './pages/Downloads';
@@ -41,7 +40,6 @@ function PortfolioRoutes() {
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/resume" element={<Resume />} />
         <Route path="/services" element={<Services />} />
-        <Route path="/testimonials" element={<Testimonials />} />
         <Route path="/github" element={<GitHubActivity />} />
         <Route path="/statistics" element={<Statistics />} />
         <Route path="/downloads" element={<Downloads />} />
