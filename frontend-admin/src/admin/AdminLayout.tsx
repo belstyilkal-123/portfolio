@@ -3,7 +3,7 @@ import { Outlet, Navigate, Link, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../stores/useAuthStore';
 import { 
   LogOut, LayoutDashboard, Briefcase, Settings, MessageSquare, 
-  BarChart2, PenSquare, Zap, FileText, Star, UserCircle, Image, Bell, GraduationCap, Award, Palette
+  BarChart2, PenSquare, Zap, FileText, UserCircle, Image, Bell, GraduationCap, Award
 } from 'lucide-react';
 
 export const AdminLayout: React.FC = () => {

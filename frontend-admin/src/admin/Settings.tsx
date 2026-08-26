@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
-import { Loader2, Save, Eye, EyeOff, LayoutTemplate, Palette, Sun, Moon, Monitor, Check, Shield, ArrowLeftRight } from 'lucide-react';
+import { Loader2, Save, Palette, Sun, Moon, Monitor, Shield, Check, Eye, EyeOff, LayoutTemplate } from 'lucide-react';
 import { GithubIcon } from '../components/icons';
 import { useGitHubSettings, useSaveSettings } from '../hooks/useAdmin';
-import { Link } from 'react-router-dom';
 
 export const AdminSettings: React.FC = () => {
   const { data: githubData, isPending: isGithubLoading } = useGitHubSettings();

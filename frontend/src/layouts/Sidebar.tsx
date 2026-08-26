@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Home, User, Code, Briefcase, GraduationCap, 
   Award, Trophy, Clock, FileText, Image, File, Wrench, 
-  MessageSquare, BarChart, Download, Mail, Settings, 
+  BarChart, Download, Mail, Settings, 
   LogOut, ChevronLeft, ChevronRight
 } from 'lucide-react';
 import { GithubIcon } from '../components/icons';
