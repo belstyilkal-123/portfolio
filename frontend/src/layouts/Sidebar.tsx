@@ -76,10 +76,10 @@ export const Sidebar: React.FC = () => {
       initial={false}
       animate={{ width: isSidebarOpen ? 256 : 72 }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
-      className="fixed left-0 top-0 z-40 h-screen bg-surface dark:bg-surface-dark border-r border-border dark:border-border-dark flex flex-col"
+      className="fixed left-0 top-0 z-40 h-screen bg-[#0F172A] border-r border-slate-800 flex flex-col text-[#CBD5E1]"
     >
       {/* Header */}
-      <div className="flex items-center justify-between h-16 px-4 border-b border-border dark:border-border-dark flex-shrink-0">
+      <div className="flex items-center justify-between h-16 px-4 border-b border-slate-800 flex-shrink-0">
         <AnimatePresence>
           {isSidebarOpen && (
             <motion.span
@@ -126,7 +126,7 @@ export const Sidebar: React.FC = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="mx-3 my-2 h-px bg-border dark:bg-border-dark"
+                  className="mx-3 my-2 h-px bg-slate-800"
                 />
               ) : null}
             </AnimatePresence>
@@ -142,7 +142,7 @@ export const Sidebar: React.FC = () => {
                       `flex items-center px-3 py-2.5 rounded-xl transition-all group relative ${
                         isActive
                           ? 'bg-primary/10 text-primary font-medium'
-                          : 'text-text-muted hover:bg-zinc-100 dark:hover:bg-zinc-800/60 hover:text-text dark:hover:text-white'
+                          : 'text-[#CBD5E1]/70 hover:bg-white/5 hover:text-white'
                       }`
                     }
                     title={!isSidebarOpen ? item.label : undefined}
@@ -187,14 +187,14 @@ export const Sidebar: React.FC = () => {
       </div>
 
       {/* Bottom: Settings + Logout */}
-      <div className="border-t border-border dark:border-border-dark p-3 flex-shrink-0 space-y-1">
+      <div className="border-t border-slate-800 p-3 flex-shrink-0 space-y-1">
         <NavLink
           to="/settings"
           className={({ isActive }) =>
             `flex items-center px-3 py-2.5 rounded-xl transition-all ${
               isActive
                 ? 'bg-primary/10 text-primary font-medium'
-                : 'text-text-muted hover:bg-zinc-100 dark:hover:bg-zinc-800/60 hover:text-text dark:hover:text-white'
+                : 'text-[#CBD5E1]/70 hover:bg-white/5 hover:text-white'
             }`
           }
           title={!isSidebarOpen ? 'Settings' : undefined}

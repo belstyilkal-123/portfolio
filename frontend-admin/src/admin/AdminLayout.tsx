@@ -53,8 +53,8 @@ export const AdminLayout: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-bg text-text flex">
-      <aside className="w-64 fixed left-0 top-0 h-screen bg-surface dark:bg-surface-dark border-r border-border dark:border-border-dark flex flex-col">
-        <div className="h-16 flex items-center px-6 border-b border-border dark:border-border-dark shrink-0">
+      <aside className="w-64 fixed left-0 top-0 h-screen bg-[#0F172A] border-r border-slate-800 flex flex-col text-[#CBD5E1]">
+        <div className="h-16 flex items-center px-6 border-b border-slate-800 shrink-0">
           <span className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Admin CMS</span>
         </div>
         <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
@@ -62,20 +62,20 @@ export const AdminLayout: React.FC = () => {
             const Icon = item.icon;
             const isActive = location.pathname.startsWith(item.path);
             return (
-              <Link key={item.path} to={item.path} className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${isActive ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-zinc-100 dark:hover:bg-zinc-800 text-text-muted hover:text-text'}`}>
+              <Link key={item.path} to={item.path} className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${isActive ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-white/5 text-[#CBD5E1]/70 hover:text-white'}`}>
                 <Icon size={20} /> {item.name}
               </Link>
             );
           })}
         </nav>
-        <div className="p-4 border-t border-border dark:border-border-dark shrink-0">
+        <div className="p-4 border-t border-slate-800 shrink-0">
           <button onClick={handleLogout} className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-red-500/10 text-red-500 hover:bg-red-500/20 rounded-lg transition-colors font-medium text-sm">
             <LogOut size={16} /> Sign Out
           </button>
         </div>
       </aside>
       <main className="flex-1 ml-64 min-h-screen flex flex-col relative">
-        <header className="h-16 flex items-center justify-end px-8 border-b border-border dark:border-border-dark shrink-0">
+        <header className="h-16 flex items-center justify-end px-8 border-b border-border bg-surface shrink-0">
           <button 
             onClick={toggleTheme}
             className="p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
