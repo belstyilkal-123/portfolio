@@ -79,7 +79,10 @@ export const useGitHubSettings = () => {
     queryKey: ['settings'],
     queryFn: async () => {
       const { data } = await api.get('/settings');
-      return data;
+      return (data || []).reduce((acc: any, s: any) => {
+        acc[s.key] = s.value;
+        return acc;
+      }, {});
     },
   });
 };
