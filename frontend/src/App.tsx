@@ -71,11 +71,6 @@ function RootRoutes() {
         }, {});
         setSettings(settingsMap);
         
-        // Apply Accent Color
-        if (settingsMap.accentColor) {
-          document.documentElement.style.setProperty('--color-primary', settingsMap.accentColor);
-        }
-        
         // Apply Theme
         if (settingsMap.theme) {
           setTheme(settingsMap.theme);
