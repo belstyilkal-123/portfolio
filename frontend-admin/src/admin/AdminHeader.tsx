@@ -1,5 +1,6 @@
 import React from 'react';
 import { Search, Bell, Sun, Moon } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export const AdminHeader: React.FC<{ theme: string; toggleTheme: () => void }> = ({ theme, toggleTheme }) => {
   return (
@@ -31,10 +32,11 @@ export const AdminHeader: React.FC<{ theme: string; toggleTheme: () => void }> =
           {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
         </button>
         
-        <button className="p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors relative">
+        <Link to="/admin/notifications" className="p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors relative">
           <Bell size={20} />
+          {/* Static red dot indicator */}
           <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-surface"></span>
-        </button>
+        </Link>
 
         <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg transition-colors font-medium text-sm shadow-sm shadow-primary/20 cursor-pointer">
           Admin Profile
