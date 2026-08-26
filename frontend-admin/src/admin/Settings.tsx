@@ -128,6 +128,16 @@ export const AdminSettings: React.FC = () => {
     const stringValue = value.toString();
     setSettings(prev => ({ ...prev, [key]: stringValue }));
     
+    // Instantly apply theme to admin dashboard as well so user sees the change
+    if (key === 'theme') {
+      localStorage.setItem('theme', stringValue);
+      if (stringValue === 'dark' || (stringValue === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    }
+    
     // Auto-save setting
     try {
       await api.post('/settings', { key, value: stringValue });
