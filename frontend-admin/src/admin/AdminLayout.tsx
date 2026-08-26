@@ -5,6 +5,8 @@ import {
   LogOut, LayoutDashboard, Briefcase, Settings, MessageSquare, 
   BarChart2, PenSquare, Zap, FileText, UserCircle, Image, Bell, GraduationCap, Award
 } from 'lucide-react';
+import { AdminHeader } from './AdminHeader';
+import { AdminFooter } from './AdminFooter';
 
 export const AdminLayout: React.FC = () => {
   const { user, logout } = useAuthStore();
@@ -75,20 +77,13 @@ export const AdminLayout: React.FC = () => {
         </div>
       </aside>
       <main className="flex-1 ml-64 min-h-screen flex flex-col relative">
-        <header className="h-16 flex items-center justify-end px-8 border-b border-border bg-surface shrink-0">
-          <button 
-            onClick={toggleTheme}
-            className="p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
-            title="Toggle Theme"
-          >
-            {theme === 'light' ? <span>🌙</span> : <span>☀️</span>}
-          </button>
-        </header>
+        <AdminHeader theme={theme} toggleTheme={toggleTheme} />
         <div className="p-8 flex-1">
           <div className="max-w-6xl mx-auto">
             <Outlet />
           </div>
         </div>
+        <AdminFooter />
       </main>
     </div>
   );
