@@ -225,18 +225,10 @@ export const AdminSettings: React.FC = () => {
           <SettingSection title="Global Appearance" icon={<Palette size={16} />}>
             <div className="px-6 py-5">
               <p className="text-sm font-medium text-text mb-4">Default Portfolio Theme</p>
-              <div className="grid grid-cols-3 gap-3 mb-6">
+              <div className="grid grid-cols-3 gap-3">
                 <ThemeButton value="light" current={settings.theme || 'dark'} icon={<Sun size={22} />} label="Light" onClick={() => handleChange('theme', 'light')} />
                 <ThemeButton value="dark" current={settings.theme || 'dark'} icon={<Moon size={22} />} label="Dark" onClick={() => handleChange('theme', 'dark')} />
                 <ThemeButton value="system" current={settings.theme || 'dark'} icon={<Monitor size={22} />} label="System" onClick={() => handleChange('theme', 'system')} />
-              </div>
-              
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-text">Accent Color (Hex Code)</label>
-                <div className="flex gap-3 items-center">
-                  <input type="color" value={settings.accentColor || '#10b981'} onChange={(e) => handleChange('accentColor', e.target.value)} className="w-10 h-10 rounded cursor-pointer border-0 p-0" />
-                  <input type="text" value={settings.accentColor || '#10b981'} onChange={(e) => handleChange('accentColor', e.target.value)} className="flex-1 px-4 py-2 rounded-xl border border-border focus:outline-none focus:border-primary" />
-                </div>
               </div>
             </div>
           </SettingSection>
