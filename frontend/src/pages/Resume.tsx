@@ -1,8 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Download, FileText, Mail, MapPin, Briefcase, GraduationCap, Code2, Award, ExternalLink } from 'lucide-react';
-import { GithubIcon, LinkedinIcon } from '../components/icons';
-import { personalInfo, skillsData, experienceData, educationData } from '../data/portfolioData';
+import { GithubIcon, LinkedinIcon, InstagramIcon, TelegramIcon, FacebookIcon } from '../components/icons';
+import { useSettingsStore } from '../stores/useSettingsStore';
+import { useSkills, useExperience, useEducation } from '../hooks/useResume';
 import { useProjects } from '../hooks/useProjects';
 
 const containerVariants = {
@@ -27,7 +28,39 @@ const Section: React.FC<{ title: string; icon: React.ReactNode; children: React.
 );
 
 export const Resume: React.FC = () => {
+  const { getSetting } = useSettingsStore();
+  const name = getSetting('name', 'Belstie Yilkal');
+  const role = getSetting('role', 'Software Developer');
+  const bio = getSetting('bio', 'I am a software developer...');
+  const email = getSetting('email', 'belstyilkal@gmail.com');
+  const location = getSetting('location', 'Bahir Dar, Ethiopia');
+  const github = getSetting('githubUrl') || getSetting('github_url') || 'https://github.com/belstyilkal-123';
+  const linkedin = getSetting('linkedinUrl') || getSetting('linkedin_url') || 'https://www.linkedin.com/in/belst-yilkal-443614422';
+  const telegram = getSetting('telegramUrl') || getSetting('telegram_url') || 'https://t.me/manchilot123';
+  const instagram = getSetting('instagramUrl') || getSetting('instagram_url') || 'https://www.instagram.com/yilkal3555/';
+  const facebook = getSetting('facebookUrl') || getSetting('facebook_url') || 'https://web.facebook.com/profile.php?id=61592192108357';
+
   const { data: projectsData, isPending: projectsLoading } = useProjects();
+  const { data: skillsData = [], isLoading: loadingSkills } = useSkills();
+  const { data: experienceData = [], isLoading: loadingExp } = useExperience();
+  const { data: educationData = [], isLoading: loadingEdu } = useEducation();
+
+  // Group skills by category
+  const groupedSkills = skillsData.reduce((acc: Record<string, any[]>, skill: any) => {
+    if (!acc[skill.category]) acc[skill.category] = [];
+    acc[skill.category].push(skill);
+    return acc;
+  }, {});
+
+  const sortedCategories = Object.keys(groupedSkills).sort();
+
+  if (loadingSkills || loadingExp || loadingEdu) {
+    return (
+      <div className="py-8 flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="py-8">
@@ -74,34 +107,54 @@ export const Resume: React.FC = () => {
           {/* Identity */}
           <motion.div variants={itemVariants} className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-12 pb-8 border-b border-border dark:border-border-dark">
             <div>
-              <h2 className="text-4xl font-extrabold text-text mb-2">{personalInfo.name}</h2>
-              <p className="text-xl text-primary font-semibold mb-4">{personalInfo.role}</p>
-              <p className="text-text-muted max-w-xl leading-relaxed">{personalInfo.bio}</p>
+              <h2 className="text-4xl font-extrabold text-text mb-2">{name}</h2>
+              <p className="text-xl text-primary font-semibold mb-4">{role}</p>
+              <p className="text-text-muted max-w-xl leading-relaxed">{bio}</p>
             </div>
             <div className="space-y-3 text-sm shrink-0">
-              <a href={`mailto:${personalInfo.email}`} className="flex items-center gap-2 text-text-muted hover:text-primary transition-colors">
+              <a href={`mailto:${email}`} className="flex items-center gap-2 text-text-muted hover:text-primary transition-colors">
                 <Mail size={16} className="text-primary" />
-                {personalInfo.email}
+                {email}
               </a>
               <div className="flex items-center gap-2 text-text-muted">
                 <MapPin size={16} className="text-secondary" />
-                Bahir Dar, Ethiopia
+                {location}
               </div>
-              <a href={personalInfo.github} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-text-muted hover:text-primary transition-colors">
+              <a href={github} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-text-muted hover:text-primary transition-colors">
                 <GithubIcon size={16} className="text-text-muted" />
-                {personalInfo.github.replace('https://github.com/', 'github.com/')}
+                {github.replace('https://github.com/', 'github.com/')}
               </a>
-              <a href={personalInfo.linkedin} className="flex items-center gap-2 text-text-muted hover:text-primary transition-colors">
-                <LinkedinIcon size={16} className="text-blue-500" />
-                LinkedIn Profile
-              </a>
+              {linkedin && (
+                <a href={linkedin} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-text-muted hover:text-primary transition-colors">
+                  <LinkedinIcon size={16} className="text-blue-500" />
+                  LinkedIn Profile
+                </a>
+              )}
+              {telegram && (
+                <a href={telegram} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-text-muted hover:text-secondary transition-colors">
+                  <TelegramIcon size={16} className="text-text-muted" />
+                  {telegram.replace('https://t.me/', 't.me/')}
+                </a>
+              )}
+              {instagram && (
+                <a href={instagram} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-text-muted hover:text-pink-500 transition-colors">
+                  <InstagramIcon size={16} className="text-text-muted" />
+                  {instagram.replace('https://www.instagram.com/', 'instagram.com/').replace(/\/$/, '')}
+                </a>
+              )}
+              {facebook && (
+                <a href={facebook} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-text-muted hover:text-blue-600 transition-colors">
+                  <FacebookIcon size={16} className="text-text-muted" />
+                  {facebook.replace('https://web.facebook.com/', 'facebook.com/').replace('https://www.facebook.com/', 'facebook.com/')}
+                </a>
+              )}
             </div>
           </motion.div>
 
           {/* Experience */}
           <motion.div variants={itemVariants}>
             <Section title="Experience" icon={<Briefcase size={18} />}>
-              {experienceData.map((exp, idx) => (
+              {experienceData.map((exp: any, idx: number) => (
                 <div key={idx} className="relative pl-6 pb-6 border-l-2 border-primary/30 last:border-0 last:pb-0">
                   <div className="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-primary border-2 border-bg" />
                   <span className="inline-block px-2 py-0.5 bg-primary/10 text-primary text-xs font-semibold rounded-full mb-2">{exp.timeline}</span>
@@ -116,12 +169,12 @@ export const Resume: React.FC = () => {
           {/* Education */}
           <motion.div variants={itemVariants}>
             <Section title="Education" icon={<GraduationCap size={18} />}>
-              {educationData.map((edu, idx) => (
+              {educationData.map((edu: any, idx: number) => (
                 <div key={idx} className="relative pl-6 pb-6 border-l-2 border-secondary/30 last:border-0 last:pb-0">
                   <div className="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-secondary border-2 border-bg" />
                   <span className="inline-block px-2 py-0.5 bg-secondary/10 text-secondary text-xs font-semibold rounded-full mb-2">{edu.timeline}</span>
                   <h3 className="text-lg font-bold text-text">{edu.degree}</h3>
-                  <p className="text-primary font-medium mb-2">{edu.institution}</p>
+                  <p className="text-primary font-medium mb-2">{edu.school || edu.institution}</p>
                   <p className="text-text-muted text-sm leading-relaxed">{edu.description}</p>
                 </div>
               ))}
@@ -145,7 +198,7 @@ export const Resume: React.FC = () => {
                     <div key={project._id || idx} className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-border dark:border-zinc-700 hover:border-primary/40 transition-colors group">
                       <div className="flex items-start justify-between">
                         <h3 className="font-bold text-text group-hover:text-primary transition-colors mb-2 pr-2">{project.title}</h3>
-                        <a href={project.githubUrl || personalInfo.github} target="_blank" rel="noreferrer" className="shrink-0 text-text-muted hover:text-primary transition-colors">
+                        <a href={project.githubUrl || github} target="_blank" rel="noreferrer" className="shrink-0 text-text-muted hover:text-primary transition-colors">
                           <ExternalLink size={16} />
                         </a>
                       </div>
@@ -166,11 +219,11 @@ export const Resume: React.FC = () => {
           <motion.div variants={itemVariants}>
             <Section title="Technical Skills" icon={<Award size={18} />}>
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                {skillsData.map((category, idx) => (
+                {sortedCategories.map((category, idx) => (
                   <div key={idx}>
-                    <h4 className="text-sm font-bold text-text uppercase tracking-wider mb-3">{category.category}</h4>
+                    <h4 className="text-sm font-bold text-text uppercase tracking-wider mb-3">{category}</h4>
                     <div className="flex flex-wrap gap-2">
-                      {category.items.map((skill, sIdx) => (
+                      {groupedSkills[category].map((skill: any, sIdx: number) => (
                         <span key={sIdx} className="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 border border-border dark:border-zinc-700 text-sm text-text rounded-lg font-medium">
                           {skill.name}
                         </span>

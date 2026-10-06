@@ -5,7 +5,11 @@ import Project from '../models/Project';
 // @route   GET /api/projects
 // @access  Public
 export const getProjects = async (req: Request, res: Response): Promise<void> => {
-  const projects = await Project.find({}).sort({ createdAt: -1 });
+  const page = Number(req.query.page) || 1;
+  const limit = 20;
+  const skip = (page - 1) * limit;
+
+  const projects = await Project.find({}).sort({ createdAt: -1 }).skip(skip).limit(limit);
   res.json(projects);
 };
 

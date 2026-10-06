@@ -5,6 +5,8 @@ import Skill from './models/Skill';
 import Blog from './models/Blog';
 import Testimonial from './models/Testimonial';
 import Setting from './models/Setting';
+import Experience from './models/Experience';
+import Education from './models/Education';
 import connectDB from './config/db';
 
 dotenv.config();
@@ -156,6 +158,28 @@ const blogData = [
   },
 ];
 
+// ─── EXPERIENCE ────────────────────────────────────────────────────────────
+const experienceData = [
+  {
+    role: "Networking Intern",
+    company: "Current Internship",
+    timeline: "Present",
+    description: "Gaining hands-on experience in network configuration, troubleshooting, and infrastructure management.",
+    icon: "Briefcase"
+  }
+];
+
+// ─── EDUCATION ─────────────────────────────────────────────────────────────
+const educationData = [
+  {
+    school: "Bahir Dar University",
+    degree: "BSc in Information Technology",
+    timeline: "2023 - Present",
+    description: "Third-year IT student focusing on software development, databases, networking, and IoT.",
+    icon: "GraduationCap"
+  }
+];
+
 // ─── SETTINGS ──────────────────────────────────────────────────────────────
 const settingsData = [
   { key: 'name', value: 'Belstie Yilkal' },
@@ -164,10 +188,12 @@ const settingsData = [
   { key: 'bio', value: 'I am a third-year Information Technology student and software developer from Bahir Dar. I build full-stack applications, backend systems, and IoT solutions with an emphasis on usability, stability, and maintainability.' },
   { key: 'location', value: 'Bahir Dar, Ethiopia' },
   { key: 'github_url', value: 'https://github.com/belstyilkal-123' },
-  { key: 'linkedin_url', value: '' },
+  { key: 'linkedin_url', value: 'https://www.linkedin.com/in/belst-yilkal-443614422' },
   { key: 'twitter_url', value: '' },
   { key: 'email', value: 'belstyilkal@gmail.com' },
   { key: 'telegram_url', value: 'https://t.me/manchilot123' },
+  { key: 'facebook_url', value: 'https://web.facebook.com/profile.php?id=61592192108357' },
+  { key: 'instagramUrl', value: 'https://www.instagram.com/yilkal3555/' },
   { key: 'resume_visible', value: 'true' },
   { key: 'notify_on_message', value: 'true' },
   { key: 'notification_email', value: 'belstyilkal@gmail.com' },
@@ -205,6 +231,16 @@ const importData = async () => {
     await Blog.deleteMany();
     await Blog.insertMany(blogData);
     console.log('✅ Blog posts seeded');
+
+    // Experience
+    await Experience.deleteMany();
+    await Experience.insertMany(experienceData);
+    console.log('✅ Experience seeded');
+
+    // Education
+    await Education.deleteMany();
+    await Education.insertMany(educationData);
+    console.log('✅ Education seeded');
 
     // Settings (upsert each key)
     for (const s of settingsData) {

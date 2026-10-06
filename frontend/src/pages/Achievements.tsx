@@ -2,68 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Trophy, Star, Zap, Target, Code2, Award, CheckCircle } from 'lucide-react';
 
-const achievements = [
-  {
-    id: 1,
-    title: 'Smart Irrigation System',
-    category: 'Academic Project',
-    description: 'Built a full-stack IoT solution using ESP32, React, and Node.js for real-time agricultural automation.',
-    icon: '🌱',
-    color: 'from-emerald-500 to-teal-400',
-    badge: 'IoT',
-    year: '2024'
-  },
-  {
-    id: 2,
-    title: 'Networking Internship',
-    category: 'Professional',
-    description: 'Completed a hands-on networking internship, configuring Cisco routers and managing local area networks.',
-    icon: '🌐',
-    color: 'from-blue-500 to-indigo-400',
-    badge: 'Networking',
-    year: '2024'
-  },
-  {
-    id: 3,
-    title: 'EthioSearch Engine',
-    category: 'Research',
-    description: 'Developed a bilingual English-Amharic information retrieval engine using NLP and Python.',
-    icon: '🔍',
-    color: 'from-purple-500 to-pink-400',
-    badge: 'NLP',
-    year: '2024'
-  },
-  {
-    id: 4,
-    title: 'Stadium Management System',
-    category: 'Database Project',
-    description: 'Designed a comprehensive MySQL database system with stored procedures, triggers, and admin dashboards.',
-    icon: '🏟️',
-    color: 'from-orange-500 to-amber-400',
-    badge: 'MySQL',
-    year: '2023'
-  },
-  {
-    id: 5,
-    title: 'Full-Stack Developer',
-    category: 'Skill Achievement',
-    description: 'Mastered the MERN stack and built production-ready full-stack applications from scratch.',
-    icon: '💻',
-    color: 'from-sky-500 to-cyan-400',
-    badge: 'MERN',
-    year: '2023'
-  },
-  {
-    id: 6,
-    title: 'BSc IT Student – Top Cohort',
-    category: 'Academic',
-    description: 'Maintained strong academic performance in the BSc Information Technology program at Bahir Dar University.',
-    icon: '🎓',
-    color: 'from-rose-500 to-red-400',
-    badge: 'Academic',
-    year: '2023'
-  }
-];
+import { useAchievements } from '../hooks/useContent';
 
 const stats = [
   { label: 'Projects Built', value: '10+', icon: Code2 },
@@ -83,6 +22,11 @@ const itemVariants = {
 };
 
 export const Achievements: React.FC = () => {
+  const { data: achievements = [], isLoading } = useAchievements();
+
+  if (isLoading) {
+    return <div className="py-20 flex justify-center"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div></div>;
+  }
   return (
     <div className="py-8">
       {/* Header */}
@@ -137,7 +81,7 @@ export const Achievements: React.FC = () => {
       >
         {achievements.map((item) => (
           <motion.div
-            key={item.id}
+            key={item._id}
             variants={itemVariants}
             whileHover={{ y: -6, scale: 1.01 }}
             className="glass-panel rounded-3xl overflow-hidden group cursor-default border border-border dark:border-zinc-800/80 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-300"

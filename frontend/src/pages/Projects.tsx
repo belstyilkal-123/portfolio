@@ -5,13 +5,7 @@ import { Loader2 } from 'lucide-react';
 import { ProjectCard } from '../components/ui/ProjectCard';
 
 export const Projects: React.FC = () => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.15 }
-    }
-  };
+
 
   const { data: projectsData, isPending: isLoading } = useProjects();
 
@@ -59,10 +53,7 @@ export const Projects: React.FC = () => {
         </p>
       </motion.div>
 
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
+      <div
         className="grid grid-cols-1 lg:grid-cols-2 gap-8"
       >
         {projectsData?.map((project, idx) => {
@@ -82,7 +73,7 @@ export const Projects: React.FC = () => {
             />
           );
         })}
-      </motion.div>
+      </div>
     </div>
   );
 };

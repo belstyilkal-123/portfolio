@@ -11,6 +11,7 @@ const blogSchema = new mongoose.Schema({
   tags: [{ type: String }],
   readingTime: { type: Number },
   isPublished: { type: Boolean, default: false },
+  publishedDate: { type: Date, default: Date.now },
 }, { timestamps: true });
 
 export default mongoose.model('Blog', blogSchema);

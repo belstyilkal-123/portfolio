@@ -4,9 +4,13 @@ import { persist } from 'zustand/middleware';
 interface UIState {
   isSidebarOpen: boolean;
   theme: 'light' | 'dark' | 'system';
+  soundEnabled: boolean;
+  isSearchOpen: boolean;
   toggleSidebar: () => void;
   setSidebarOpen: (isOpen: boolean) => void;
   setTheme: (theme: 'light' | 'dark' | 'system') => void;
+  toggleSound: () => void;
+  setSearchOpen: (isOpen: boolean) => void;
 }
 
 export const useUIStore = create<UIState>()(
@@ -14,8 +18,12 @@ export const useUIStore = create<UIState>()(
     (set) => ({
       isSidebarOpen: true,
       theme: 'dark',
+      soundEnabled: true,
+      isSearchOpen: false,
       toggleSidebar: () => set((state) => ({ isSidebarOpen: !state.isSidebarOpen })),
       setSidebarOpen: (isOpen) => set({ isSidebarOpen: isOpen }),
+      toggleSound: () => set((state) => ({ soundEnabled: !state.soundEnabled })),
+      setSearchOpen: (isOpen) => set({ isSearchOpen: isOpen }),
       setTheme: (theme) => {
         set({ theme });
         if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {

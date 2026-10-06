@@ -3,7 +3,7 @@ import { Outlet, Navigate, Link, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../stores/useAuthStore';
 import { 
   LogOut, LayoutDashboard, Briefcase, Settings, MessageSquare, 
-  BarChart2, PenSquare, Zap, FileText, UserCircle, Image, Bell, GraduationCap, Award
+  BarChart2, PenSquare, Zap, FileText, UserCircle, Image, Bell, GraduationCap, Award, Info, Layers
 } from 'lucide-react';
 import { AdminHeader } from './AdminHeader';
 import { AdminFooter } from './AdminFooter';
@@ -39,12 +39,14 @@ export const AdminLayout: React.FC = () => {
   const navItems = [
     { name: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
     { name: 'Profile', path: '/admin/profile', icon: UserCircle },
+    { name: 'About', path: '/admin/about', icon: Info },
     { name: 'Projects', path: '/admin/projects', icon: Briefcase },
     { name: 'Skills', path: '/admin/skills', icon: Zap },
     { name: 'Experience', path: '/admin/experience', icon: Briefcase },
     { name: 'Education', path: '/admin/education', icon: GraduationCap },
     { name: 'Certificates', path: '/admin/certificates', icon: Award },
     { name: 'Resume', path: '/admin/resume', icon: FileText },
+    { name: 'Content Hub', path: '/admin/content', icon: Layers },
     { name: 'Blog', path: '/admin/blog', icon: PenSquare },
     { name: 'Messages', path: '/admin/messages', icon: MessageSquare },
     { name: 'Media', path: '/admin/media', icon: Image },

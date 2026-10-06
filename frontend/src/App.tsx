@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AppLayout } from './layouts/AppLayout';
 import { Dashboard } from './pages/Dashboard';
 import { About } from './pages/About';
@@ -10,6 +10,7 @@ import { Education } from './pages/Education';
 import { Contact } from './pages/Contact';
 import { Timeline } from './pages/Timeline';
 import { Blog } from './pages/Blog';
+import { BlogPost } from './pages/BlogPost';
 import { FAQ } from './pages/FAQ';
 import { Services } from './pages/Services';
 import { Certificates } from './pages/Certificates';
@@ -20,13 +21,15 @@ import { GitHubActivity } from './pages/GitHubActivity';
 import { Statistics } from './pages/Statistics';
 import { Downloads } from './pages/Downloads';
 import { Settings } from './pages/SettingsPage';
+import { NotFound } from './pages/NotFound';
 import { useUIStore } from './stores/useUIStore';
 
-// Helper for AnimatePresence logic if added later
+// Helper for AnimatePresence logic
 function PortfolioRoutes() {
+  const location = useLocation();
   return (
     <AppLayout>
-      <Routes>
+      <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Dashboard />} />
         <Route path="/about" element={<About />} />
         <Route path="/skills" element={<Skills />} />
@@ -37,6 +40,7 @@ function PortfolioRoutes() {
         <Route path="/achievements" element={<Achievements />} />
         <Route path="/timeline" element={<Timeline />} />
         <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/resume" element={<Resume />} />
         <Route path="/services" element={<Services />} />
@@ -46,6 +50,7 @@ function PortfolioRoutes() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/faq" element={<FAQ />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </AppLayout>
   );

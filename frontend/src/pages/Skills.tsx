@@ -1,8 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { skillsData } from '../data/portfolioData';
+import { useSkills } from '../hooks/useResume';
 
 export const Skills: React.FC = () => {
+  const { data: skillsData = [], isLoading } = useSkills();
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { 
@@ -15,6 +17,23 @@ export const Skills: React.FC = () => {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 }
   };
+
+  if (isLoading) {
+    return (
+      <div className="py-8 flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  // Group skills by category
+  const groupedSkills = skillsData.reduce((acc: Record<string, any[]>, skill: any) => {
+    if (!acc[skill.category]) acc[skill.category] = [];
+    acc[skill.category].push(skill);
+    return acc;
+  }, {});
+
+  const sortedCategories = Object.keys(groupedSkills).sort();
 
   return (
     <div className="py-8">
@@ -36,7 +55,7 @@ export const Skills: React.FC = () => {
         animate="visible"
         className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
       >
-        {skillsData.map((category, idx) => (
+        {sortedCategories.map((category, idx) => (
           <motion.div 
             key={idx}
             variants={itemVariants}
@@ -44,12 +63,12 @@ export const Skills: React.FC = () => {
           >
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             
-            <h3 className="text-xl font-bold mb-6 border-b border-border dark:border-border-dark pb-2">
-              {category.category}
+            <h3 className="text-xl font-bold mb-6 border-b border-border dark:border-border-dark pb-2 uppercase">
+              {category}
             </h3>
             
             <div className="space-y-4">
-              {category.items.map((skill, skillIdx) => (
+              {groupedSkills[category].map((skill: any, skillIdx: number) => (
                 <div key={skillIdx}>
                   <div className="flex justify-between mb-1">
                     <span className="font-medium text-sm">{skill.name}</span>

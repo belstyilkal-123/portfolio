@@ -24,7 +24,11 @@ export const Login: React.FC = () => {
       localStorage.setItem('token', data.token);
       navigate('/admin/dashboard');
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Invalid credentials');
+      if (err.response) {
+        setError(err.response.data?.message || 'Invalid credentials');
+      } else {
+        setError('Network Error: Could not connect to backend server');
+      }
     } finally {
       setIsLoading(false);
     }

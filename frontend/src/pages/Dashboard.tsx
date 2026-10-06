@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Download, Mail, MapPin } from 'lucide-react';
-import { GithubIcon } from '../components/icons';
+import { GithubIcon, InstagramIcon, LinkedinIcon, TelegramIcon, FacebookIcon } from '../components/icons';
 import { SEO } from '../components/SEO';
 import { useProjects } from '../hooks/useProjects';
 import { Link } from 'react-router-dom';
 import { useSettingsStore } from '../stores/useSettingsStore';
+import { CodeWindow } from '../components/ui/CodeWindow';
+import { Sparkles } from '../components/ui/Sparkles';
 
 // --- TypeWriter Component ---
 const TypeWriter: React.FC<{ words: string[]; speed?: number; pause?: number }> = ({
@@ -59,10 +61,13 @@ export const Dashboard: React.FC = () => {
   const tagline = getSetting('tagline', 'Building reliable web and IoT products with clean code, strong architecture, and practical business value.');
   const location = getSetting('location', 'Bahir Dar, Ethiopia');
   const role = getSetting('role', 'Software Developer');
-  const github = getSetting('github', 'https://github.com/belstyilkal-123');
-  const linkedin = getSetting('linkedin', '');
-  const telegram = getSetting('telegram', 'https://t.me/manchilot123');
+  const githubUrl = getSetting('githubUrl') || getSetting('github_url') || 'https://github.com/belstyilkal-123';
+  const linkedinUrl = getSetting('linkedinUrl') || getSetting('linkedin_url') || 'https://www.linkedin.com/in/belst-yilkal-443614422';
+  const telegramUrl = getSetting('telegramUrl') || getSetting('telegram_url') || 'https://t.me/manchilot123';
+  const instagramUrl = getSetting('instagramUrl') || getSetting('instagram_url') || 'https://www.instagram.com/yilkal3555/';
+  const facebookUrl = getSetting('facebookUrl') || getSetting('facebook_url') || 'https://web.facebook.com/profile.php?id=61592192108357';
   const email = getSetting('email', 'belstyilkal@gmail.com');
+  const avatarUrl = getSetting('avatarUrl', '/profile.jpg');
 
   const summaryCards = [
     { label: 'Experience', value: '2+ years', detail: 'Real-world web development and internships' },
@@ -102,11 +107,19 @@ export const Dashboard: React.FC = () => {
 
             <div>
               <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight leading-tight">
-                Hi, I&apos;m <br />
-                <TypeWriter words={typeWords} />
+                Hi <motion.span
+                      className="inline-block origin-[70%_70%]"
+                      animate={{ rotate: [0, 14, -8, 14, -4, 10, 0, 0] }}
+                      transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 1 }}
+                    >👋</motion.span>, I&apos;m <br />
+                <Sparkles color="#10B981">
+                  <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                    {name}
+                  </span>
+                </Sparkles>
               </h1>
               <h2 className="text-2xl md:text-3xl text-text-muted font-medium mt-4">
-                {role}
+                <TypeWriter words={typeWords} />
               </h2>
             </div>
 
@@ -135,21 +148,31 @@ export const Dashboard: React.FC = () => {
 
             <div className="flex flex-wrap items-center gap-4 pt-8 border-t border-border dark:border-border-dark">
               <p className="text-sm text-text-muted font-medium">Connect with me:</p>
-              <a href={github} target="_blank" rel="noreferrer" className="p-2 bg-surface dark:bg-surface-dark border border-border dark:border-border-dark rounded-full hover:text-primary transition-colors hover:scale-110 transform duration-200">
+              <a href={githubUrl} target="_blank" rel="noreferrer" className="p-2 bg-surface dark:bg-surface-dark border border-border dark:border-border-dark rounded-full hover:text-primary transition-colors hover:scale-110 transform duration-200">
                 <GithubIcon size={20} />
               </a>
-              {linkedin && (
-                <a href={linkedin} target="_blank" rel="noreferrer" className="p-2 bg-surface dark:bg-surface-dark border border-border dark:border-border-dark rounded-full hover:text-secondary transition-colors hover:scale-110 transform duration-200">
+              {linkedinUrl && (
+                <a href={linkedinUrl} target="_blank" rel="noreferrer" className="p-2 bg-surface dark:bg-surface-dark border border-border dark:border-border-dark rounded-full hover:text-secondary transition-colors hover:scale-110 transform duration-200">
                   <span className="sr-only">LinkedIn</span>
-                  <span className="text-lg font-bold px-0.5">in</span>
+                  <LinkedinIcon size={20} />
                 </a>
               )}
-              {telegram && (
-                <a href={telegram} target="_blank" rel="noreferrer" className="p-2 bg-surface dark:bg-surface-dark border border-border dark:border-border-dark rounded-full hover:text-accent transition-colors hover:scale-110 transform duration-200">
+              {telegramUrl && (
+                <a href={telegramUrl} target="_blank" rel="noreferrer" className="p-2 bg-surface dark:bg-surface-dark border border-border dark:border-border-dark rounded-full hover:text-accent transition-colors hover:scale-110 transform duration-200">
                   <span className="sr-only">Telegram</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248-1.97 9.289c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.932z"/>
-                  </svg>
+                  <TelegramIcon size={20} />
+                </a>
+              )}
+              {instagramUrl && (
+                <a href={instagramUrl} target="_blank" rel="noreferrer" className="p-2 bg-surface dark:bg-surface-dark border border-border dark:border-border-dark rounded-full hover:text-pink-500 transition-colors hover:scale-110 transform duration-200">
+                  <span className="sr-only">Instagram</span>
+                  <InstagramIcon size={20} />
+                </a>
+              )}
+              {facebookUrl && (
+                <a href={facebookUrl} target="_blank" rel="noreferrer" className="p-2 bg-surface dark:bg-surface-dark border border-border dark:border-border-dark rounded-full hover:text-blue-600 transition-colors hover:scale-110 transform duration-200">
+                  <span className="sr-only">Facebook</span>
+                  <FacebookIcon size={20} />
                 </a>
               )}
               <a href={`mailto:${email}`} className="p-2 bg-surface dark:bg-surface-dark border border-border dark:border-border-dark rounded-full hover:text-accent transition-colors hover:scale-110 transform duration-200">
@@ -172,17 +195,18 @@ export const Dashboard: React.FC = () => {
                 {/* Profile Photo */}
                 <div className="flex flex-col items-center gap-4">
                   <div className="relative">
-                    {/* Glow ring */}
-                    <div className="absolute -inset-1 bg-gradient-to-br from-primary via-secondary to-accent rounded-full blur-sm opacity-70"></div>
-                    <div className="relative w-36 h-36 rounded-full overflow-hidden border-4 border-white/80 dark:border-zinc-800 shadow-2xl">
+                    {/* Animated Glow ring */}
+                    <div className="absolute -inset-1 bg-gradient-to-br from-primary via-secondary to-accent rounded-full blur-md opacity-70 animate-[spin_4s_linear_infinite]"></div>
+                    <div className="relative w-36 h-36 rounded-full p-1 overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-r from-primary via-secondary to-accent animate-[spin_3s_linear_infinite]"></div>
                       <img
-                        src="/profile.jpg"
-                        alt="Belstie Yilkal"
-                        className="w-full h-full object-cover object-top"
+                        src={avatarUrl}
+                        alt={name}
+                        className="relative w-full h-full object-cover object-top rounded-full border-4 border-surface dark:border-surface-dark z-10"
                       />
                     </div>
                     {/* Online badge */}
-                    <span className="absolute bottom-2 right-2 w-4 h-4 rounded-full bg-emerald-400 border-2 border-white dark:border-zinc-900 shadow-md"></span>
+                    <span className="absolute bottom-2 right-2 w-4 h-4 rounded-full bg-emerald-400 border-2 border-white dark:border-zinc-900 shadow-md z-20"></span>
                   </div>
                   <div className="text-center">
                     <p className="font-bold text-lg">{name}</p>
@@ -194,11 +218,11 @@ export const Dashboard: React.FC = () => {
                 <div className="grid grid-cols-2 gap-3">
                   <div className="rounded-2xl bg-white/90 p-4 border border-border dark:bg-zinc-950/80 dark:border-border-dark">
                     <p className="text-xs uppercase tracking-[0.25em] text-text-muted">Focus</p>
-                    <p className="mt-2 font-semibold text-sm">Web platforms</p>
+                    <p className="mt-2 font-semibold text-sm">{getSetting('focusArea', 'Web platforms')}</p>
                   </div>
                   <div className="rounded-2xl bg-white/90 p-4 border border-border dark:bg-zinc-950/80 dark:border-border-dark">
                     <p className="text-xs uppercase tracking-[0.25em] text-text-muted">Skills</p>
-                    <p className="mt-2 font-semibold text-sm">Full-stack · IoT</p>
+                    <p className="mt-2 font-semibold text-sm">{getSetting('coreSkills', 'Full-stack · IoT')}</p>
                   </div>
                 </div>
 
@@ -258,6 +282,67 @@ export const Dashboard: React.FC = () => {
             )}
           </div>
         </motion.section>
+
+        {/* CODE SNIPPET SHOWCASE */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="mt-8"
+        >
+          <div className="text-center mb-8">
+            <p className="text-sm uppercase tracking-[0.4em] text-primary font-semibold">IoT & Hardware</p>
+            <h2 className="text-3xl font-bold mt-4">Bridging the Web and the Physical World</h2>
+            <p className="text-text-muted mt-4 max-w-2xl mx-auto">
+              I don't just write web apps; I build the firmware that powers them. Here is a snippet of how I connect ESP32 microcontrollers to Node.js backends via MQTT.
+            </p>
+          </div>
+          
+          <CodeWindow 
+            filename="esp32_mqtt_client.cpp"
+            language="cpp"
+            code={`#include <WiFi.h>
+#include <PubSubClient.h>
+
+const char* ssid = "WIFI_SSID";
+const char* password = "WIFI_PASSWORD";
+const char* mqtt_server = "broker.hivemq.com";
+
+WiFiClient espClient;
+PubSubClient client(espClient);
+
+void setup_wifi() {
+  delay(10);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+  }
+}
+
+void reconnect() {
+  while (!client.connected()) {
+    if (client.connect("ESP32Client")) {
+      client.subscribe("sensor/temperature");
+    } else {
+      delay(5000);
+    }
+  }
+}
+
+void loop() {
+  if (!client.connected()) {
+    reconnect();
+  }
+  client.loop();
+  
+  // Read sensor and publish
+  float temp = readTemperature();
+  client.publish("sensor/temperature", String(temp).c_str());
+  delay(2000);
+}`}
+          />
+        </motion.section>
+
       </div>
     </>
   );

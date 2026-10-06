@@ -1,15 +1,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
+import { useGalleries } from '../hooks/useContent';
+
 export const Gallery: React.FC = () => {
-  const images = [
-    { src: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=2070&auto=format&fit=crop', title: 'Workspace Setup' },
-    { src: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop', title: 'Data Center' },
-    { src: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=2070&auto=format&fit=crop', title: 'Networking Equipment' },
-    { src: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=2070&auto=format&fit=crop', title: 'Coding Late Night' },
-    { src: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop', title: 'IoT Components' },
-    { src: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop', title: 'Hardware Hacking' }
-  ];
+  const { data: images = [], isLoading } = useGalleries();
+
+  if (isLoading) {
+    return <div className="py-20 flex justify-center"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div></div>;
+  }
 
   return (
     <div className="py-8">
@@ -25,7 +24,7 @@ export const Gallery: React.FC = () => {
       <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
         {images.map((img, idx) => (
           <motion.div 
-            key={idx}
+            key={img._id}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: idx * 0.1 }}

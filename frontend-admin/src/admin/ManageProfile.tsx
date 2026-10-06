@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
-import { Loader2, Save, UserCircle } from 'lucide-react';
+import { Loader2, Save, UserCircle, UploadCloud } from 'lucide-react';
+import { ImageCropperModal } from '../components/ImageCropperModal';
 
 export const ManageProfile: React.FC = () => {
   const [settings, setSettings] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [toast, setToast] = useState<{message: string, type: 'success' | 'error'} | null>(null);
+  
+  const [cropperImageSrc, setCropperImageSrc] = useState<string | null>(null);
+  const [isCropperOpen, setIsCropperOpen] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     fetchSettings();
@@ -36,7 +41,7 @@ export const ManageProfile: React.FC = () => {
     setIsSaving(true);
     setToast(null);
 
-    const keysToSave = ['name', 'bio', 'tagline', 'location', 'avatarUrl', 'githubUrl', 'linkedinUrl', 'twitterUrl', 'email'];
+    const keysToSave = ['name', 'role', 'focusArea', 'coreSkills', 'bio', 'tagline', 'location', 'avatarUrl', 'githubUrl', 'linkedinUrl', 'telegramUrl', 'instagramUrl', 'facebookUrl', 'email'];
     
     try {
       // Save them sequentially or adapt to backend's batch save if available.
@@ -53,6 +58,28 @@ export const ManageProfile: React.FC = () => {
       setToast({ message: 'Error updating profile', type: 'error' });
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleCropComplete = async (croppedBlob: Blob) => {
+    setIsCropperOpen(false);
+    setToast(null);
+    setIsUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', croppedBlob, 'profile.jpg');
+      formData.append('folder', 'portfolio/profile');
+      const res = await api.post('/media/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      handleChange('avatarUrl', res.data.secure_url);
+      setToast({ message: 'Image uploaded successfully. Click Save Profile to apply.', type: 'success' });
+    } catch (err) {
+      console.error(err);
+      setToast({ message: 'Error uploading image', type: 'error' });
+    } finally {
+      setIsUploading(false);
+      setCropperImageSrc(null);
     }
   };
 
@@ -78,15 +105,45 @@ export const ManageProfile: React.FC = () => {
       <form onSubmit={handleSubmit} className="glass-panel p-6 sm:p-8 rounded-2xl border border-white/10 space-y-8">
         <div className="flex flex-col sm:flex-row gap-8 items-start">
           <div className="w-full sm:w-1/3 flex flex-col items-center gap-4">
-            <div className="w-32 h-32 rounded-full overflow-hidden bg-zinc-100 dark:bg-zinc-800 border-4 border-surface shadow-xl flex items-center justify-center">
+            <div className="w-32 h-32 rounded-full overflow-hidden bg-zinc-100 dark:bg-zinc-800 border-4 border-surface shadow-xl flex items-center justify-center relative group">
                {settings.avatarUrl ? (
                  <img src={settings.avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
                ) : (
                  <UserCircle size={64} className="text-zinc-400" />
                )}
+               <label className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                 {isUploading ? (
+                   <Loader2 size={24} className="mb-1 animate-spin" />
+                 ) : (
+                   <>
+                     <UploadCloud size={24} className="mb-1" />
+                     <span className="text-xs font-medium">Upload</span>
+                   </>
+                 )}
+                 <input 
+                   type="file" 
+                   accept="image/*" 
+                   className="hidden" 
+                   disabled={isUploading}
+                   onChange={(e) => {
+                     const file = e.target.files?.[0];
+                     if (!file) return;
+                     
+                     const reader = new FileReader();
+                     reader.onload = () => {
+                       setCropperImageSrc(reader.result as string);
+                       setIsCropperOpen(true);
+                     };
+                     reader.readAsDataURL(file);
+                     
+                     // reset input value so selecting the same file again triggers onChange
+                     e.target.value = '';
+                   }} 
+                 />
+               </label>
             </div>
             <div className="w-full space-y-2">
-              <label className="text-sm font-medium text-text-muted text-center block">Avatar URL</label>
+              <label className="text-sm font-medium text-text-muted text-center block">Or paste URL</label>
               <input value={settings.avatarUrl || ''} onChange={(e) => handleChange('avatarUrl', e.target.value)} className="w-full px-4 py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-primary/50 text-text text-sm" placeholder="https://..." />
             </div>
           </div>
@@ -105,13 +162,29 @@ export const ManageProfile: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
+                <label className="text-sm font-medium text-text-muted">Role</label>
+                <input value={settings.role || ''} onChange={(e) => handleChange('role', e.target.value)} className="w-full px-4 py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-primary/50 text-text" placeholder="Software Developer" />
+              </div>
+              <div className="space-y-2">
                 <label className="text-sm font-medium text-text-muted">Tagline</label>
                 <input value={settings.tagline || ''} onChange={(e) => handleChange('tagline', e.target.value)} className="w-full px-4 py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-primary/50 text-text" placeholder="Full Stack Developer" />
               </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-text-muted">Location</label>
-                <input value={settings.location || ''} onChange={(e) => handleChange('location', e.target.value)} className="w-full px-4 py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-primary/50 text-text" placeholder="City, Country" />
+                <label className="text-sm font-medium text-text-muted">Focus Area</label>
+                <input value={settings.focusArea || ''} onChange={(e) => handleChange('focusArea', e.target.value)} className="w-full px-4 py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-primary/50 text-text" placeholder="Web platforms" />
               </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-text-muted">Core Skills</label>
+                <input value={settings.coreSkills || ''} onChange={(e) => handleChange('coreSkills', e.target.value)} className="w-full px-4 py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-primary/50 text-text" placeholder="Full-stack · IoT" />
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-text-muted">Location</label>
+              <input value={settings.location || ''} onChange={(e) => handleChange('location', e.target.value)} className="w-full px-4 py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-primary/50 text-text" placeholder="City, Country" />
             </div>
             
             <div className="space-y-2">
@@ -133,8 +206,16 @@ export const ManageProfile: React.FC = () => {
                 <input value={settings.linkedinUrl || ''} onChange={(e) => handleChange('linkedinUrl', e.target.value)} className="w-full px-4 py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-primary/50 text-text" />
              </div>
              <div className="space-y-2">
-                <label className="text-sm font-medium text-text-muted">Twitter/X</label>
-                <input value={settings.twitterUrl || ''} onChange={(e) => handleChange('twitterUrl', e.target.value)} className="w-full px-4 py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-primary/50 text-text" />
+                <label className="text-sm font-medium text-text-muted">Telegram</label>
+                <input value={settings.telegramUrl || ''} onChange={(e) => handleChange('telegramUrl', e.target.value)} className="w-full px-4 py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-primary/50 text-text" />
+             </div>
+             <div className="space-y-2">
+                <label className="text-sm font-medium text-text-muted">Instagram</label>
+                <input value={settings.instagramUrl || ''} onChange={(e) => handleChange('instagramUrl', e.target.value)} className="w-full px-4 py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-primary/50 text-text" />
+             </div>
+             <div className="space-y-2">
+                <label className="text-sm font-medium text-text-muted">Facebook</label>
+                <input value={settings.facebookUrl || ''} onChange={(e) => handleChange('facebookUrl', e.target.value)} className="w-full px-4 py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-primary/50 text-text" />
              </div>
           </div>
         </div>
@@ -145,6 +226,18 @@ export const ManageProfile: React.FC = () => {
            </button>
         </div>
       </form>
+
+      {cropperImageSrc && (
+        <ImageCropperModal
+          imageSrc={cropperImageSrc}
+          isOpen={isCropperOpen}
+          onClose={() => {
+            setIsCropperOpen(false);
+            setCropperImageSrc(null);
+          }}
+          onCropComplete={handleCropComplete}
+        />
+      )}
     </div>
   );
 };

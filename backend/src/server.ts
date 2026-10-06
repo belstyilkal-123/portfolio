@@ -17,6 +17,13 @@ import mediaRoutes from './routes/mediaRoutes';
 import experienceRoutes from './routes/experienceRoutes';
 import educationRoutes from './routes/educationRoutes';
 import certificateRoutes from './routes/certificateRoutes';
+import achievementRoutes from './routes/achievementRoutes';
+import faqRoutes from './routes/faqRoutes';
+import serviceRoutes from './routes/serviceRoutes';
+import timelineRoutes from './routes/timelineRoutes';
+import galleryRoutes from './routes/galleryRoutes';
+import downloadRoutes from './routes/downloadRoutes';
+import statisticRoutes from './routes/statisticRoutes';
 import { notFound, errorHandler } from './middlewares/errorMiddleware';
 
 dotenv.config();
@@ -73,6 +80,13 @@ app.use('/api/media', mediaRoutes);
 app.use('/api/experience', experienceRoutes);
 app.use('/api/education', educationRoutes);
 app.use('/api/certificates', certificateRoutes);
+app.use('/api/achievements', achievementRoutes);
+app.use('/api/faqs', faqRoutes);
+app.use('/api/services', serviceRoutes);
+app.use('/api/timelines', timelineRoutes);
+app.use('/api/galleries', galleryRoutes);
+app.use('/api/downloads', downloadRoutes);
+app.use('/api/statistics', statisticRoutes);
 
 app.get('/', (req, res) => {
   res.send('Portfolio API is running...');

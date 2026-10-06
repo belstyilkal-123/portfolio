@@ -136,7 +136,7 @@ export const ManageExperience: React.FC = () => {
               <input value={company} onChange={(e) => setCompany(e.target.value)} required className="w-full px-4 py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-primary/50 text-text" />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-text-muted">Timeline (e.g. 2021 - Present)</label>
+              <label className="text-sm font-medium text-text-muted">Timeline </label>
               <input value={timeline} onChange={(e) => setTimeline(e.target.value)} required className="w-full px-4 py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-primary/50 text-text" />
             </div>
             <div className="space-y-2">

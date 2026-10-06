@@ -1,6 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { BarChart3, TrendingUp, Code2, Briefcase, BookOpen, Star, Clock, Target, Cpu } from 'lucide-react';
+import { BarChart3, TrendingUp, Code2, Clock, Target } from 'lucide-react';
+
+import { useStatistics } from '../hooks/useContent';
+import * as Icons from 'lucide-react';
 
 const languageStats = [
   { name: 'TypeScript/JavaScript', percent: 45, color: '#3178c6' },
@@ -22,13 +25,14 @@ const weeklyHours = [
 
 const maxHours = Math.max(...weeklyHours.map(d => d.hours));
 
-const overallStats = [
-  { label: 'Lines of Code Written', value: '50K+', icon: Code2, color: 'text-primary' },
-  { label: 'Projects Completed', value: '10+', icon: Briefcase, color: 'text-secondary' },
-  { label: 'Technologies Used', value: '15+', icon: Cpu, color: 'text-accent' },
-  { label: 'Blog Posts Written', value: '3', icon: BookOpen, color: 'text-purple-500' },
-  { label: 'GitHub Stars Earned', value: '70+', icon: Star, color: 'text-amber-500' },
-  { label: 'Hours Coded (Weekly)', value: '33h', icon: Clock, color: 'text-emerald-500' },
+const statColors = [
+  'text-primary',
+  'text-secondary',
+  'text-accent',
+  'text-purple-500',
+  'text-amber-500',
+  'text-emerald-500',
+  'text-blue-500',
 ];
 
 const containerVariants = {
@@ -42,6 +46,11 @@ const itemVariants = {
 };
 
 export const Statistics: React.FC = () => {
+  const { data: overallStats = [], isLoading } = useStatistics();
+
+  if (isLoading) {
+    return <div className="py-20 flex justify-center"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div></div>;
+  }
   return (
     <div className="py-8">
       {/* Header */}
@@ -72,19 +81,22 @@ export const Statistics: React.FC = () => {
         animate="visible"
         className="grid grid-cols-2 md:grid-cols-3 gap-5 mb-12"
       >
-        {overallStats.map((stat, idx) => (
+        {overallStats.map((stat, idx) => {
+          const IconComponent = (Icons as any)[stat.icon] || Icons.Code2;
+          const colorClass = statColors[idx % statColors.length];
+          return (
           <motion.div
-            key={idx}
+            key={stat._id}
             variants={itemVariants}
             className="glass-panel p-6 rounded-2xl group hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
           >
-            <div className={`inline-flex p-3 rounded-xl bg-zinc-100 dark:bg-zinc-800 mb-4 ${stat.color} group-hover:scale-110 transition-transform`}>
-              <stat.icon size={22} />
+            <div className={`inline-flex p-3 rounded-xl bg-zinc-100 dark:bg-zinc-800 mb-4 ${colorClass} group-hover:scale-110 transition-transform`}>
+              <IconComponent size={22} />
             </div>
             <p className="text-3xl font-extrabold text-text mb-1">{stat.value}</p>
             <p className="text-sm text-text-muted">{stat.label}</p>
           </motion.div>
-        ))}
+        )})}
       </motion.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

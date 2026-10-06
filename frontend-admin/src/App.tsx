@@ -13,11 +13,13 @@ import { ManageBlog } from './admin/ManageBlog';
 import { ManageSkills } from './admin/ManageSkills';
 import { ManageResume } from './admin/ManageResume';
 import { ManageProfile } from './admin/ManageProfile';
+import { ManageAbout } from './admin/ManageAbout';
 import { MediaLibrary } from './admin/MediaLibrary';
 import { Notifications } from './admin/Notifications';
 import { ManageExperience } from './admin/ManageExperience';
 import { ManageEducation } from './admin/ManageEducation';
 import { ManageCertificates } from './admin/ManageCertificates';
+import { ManageContent } from './admin/ManageContent';
 
 function App() {
   return (
@@ -36,12 +38,14 @@ function App() {
         <Route path="skills" element={<ManageSkills />} />
         <Route path="resume" element={<ManageResume />} />
         <Route path="profile" element={<ManageProfile />} />
+        <Route path="about" element={<ManageAbout />} />
         <Route path="media" element={<MediaLibrary />} />
         <Route path="notifications" element={<Notifications />} />
         <Route path="settings" element={<AdminSettings />} />
         <Route path="experience" element={<ManageExperience />} />
         <Route path="education" element={<ManageEducation />} />
         <Route path="certificates" element={<ManageCertificates />} />
+        <Route path="content" element={<ManageContent />} />
       </Route>
     </Routes>
   );

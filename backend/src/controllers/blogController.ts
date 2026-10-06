@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import mongoose from 'mongoose';
 import Blog from '../models/Blog';
 
 const generateSlug = (title: string): string => {
@@ -17,7 +18,7 @@ const calculateReadingTime = (content: string): number => {
 export const getBlogs = async (req: Request, res: Response): Promise<void> => {
   try {
     const query = req.query.status === 'published' ? { isPublished: true } : {};
-    const blogs = await Blog.find(query).sort({ createdAt: -1 });
+    const blogs = await Blog.find(query).sort({ publishedDate: -1, createdAt: -1 });
     res.json(blogs);
   } catch (error) {
     res.status(500).json({ message: 'Server Error' });
@@ -26,7 +27,17 @@ export const getBlogs = async (req: Request, res: Response): Promise<void> => {
 
 export const getBlogById = async (req: Request, res: Response): Promise<void> => {
   try {
-    const blog = await Blog.findById(req.params.id);
+    const identifier = req.params.id;
+    let blog;
+    
+    if (mongoose.isValidObjectId(identifier)) {
+      blog = await Blog.findById(identifier);
+    } 
+    
+    if (!blog) {
+      blog = await Blog.findOne({ slug: identifier });
+    }
+
     if (blog) {
       res.json(blog);
     } else {
@@ -39,7 +50,7 @@ export const getBlogById = async (req: Request, res: Response): Promise<void> =>
 
 export const createBlog = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { title, content, excerpt, coverImage, categories, tags, isPublished } = req.body;
+    const { title, content, excerpt, coverImage, categories, tags, isPublished, publishedDate } = req.body;
     
     const slug = generateSlug(title);
     const readingTime = calculateReadingTime(content);
@@ -53,7 +64,8 @@ export const createBlog = async (req: Request, res: Response): Promise<void> => 
       categories,
       tags,
       readingTime,
-      isPublished
+      isPublished,
+      publishedDate: publishedDate || Date.now()
     });
 
     const createdBlog = await blog.save();
@@ -65,7 +77,7 @@ export const createBlog = async (req: Request, res: Response): Promise<void> => 
 
 export const updateBlog = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { title, content, excerpt, coverImage, categories, tags, isPublished } = req.body;
+    const { title, content, excerpt, coverImage, categories, tags, isPublished, publishedDate } = req.body;
     
     const blog = await Blog.findById(req.params.id);
 
@@ -89,6 +101,7 @@ export const updateBlog = async (req: Request, res: Response): Promise<void> => 
     if (categories !== undefined) blog.categories = categories;
     if (tags !== undefined) blog.tags = tags;
     if (isPublished !== undefined) blog.isPublished = isPublished;
+    if (publishedDate !== undefined) blog.publishedDate = publishedDate;
 
     const updatedBlog = await blog.save();
     res.json(updatedBlog);

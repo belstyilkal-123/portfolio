@@ -35,11 +35,14 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
     return;
   }
 
+  const userCount = await User.countDocuments();
+  const isFirstUser = userCount === 0;
+
   const user = await User.create({
     name,
     email,
     password,
-    isAdmin: true, // First user is admin for portfolio setup
+    isAdmin: isFirstUser, // First user is admin, others are regular users
   });
 
   if (user) {

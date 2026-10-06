@@ -5,7 +5,7 @@ import { Loader2, Copy, Trash2, UploadCloud, Image as ImageIcon } from 'lucide-r
 export const MediaLibrary: React.FC = () => {
   const [media, setMedia] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [uploadUrl, setUploadUrl] = useState('');
+  const [fileInput, setFileInput] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [filter, setFilter] = useState('all');
 
@@ -26,11 +26,19 @@ export const MediaLibrary: React.FC = () => {
 
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!uploadUrl) return;
+    if (!fileInput) return;
     setIsUploading(true);
     try {
-      await api.post('/media/upload', { fileUrl: uploadUrl, folder: 'portfolio' });
-      setUploadUrl('');
+      const formData = new FormData();
+      formData.append('file', fileInput);
+      formData.append('folder', 'portfolio');
+      
+      await api.post('/media/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      setFileInput(null);
       fetchMedia();
     } catch (error) {
       console.error(error);
@@ -80,10 +88,10 @@ export const MediaLibrary: React.FC = () => {
       </div>
 
       <div className="glass-panel p-6 rounded-2xl mb-8 border border-white/10">
-        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2"><UploadCloud size={20} /> Upload from URL</h3>
-        <form onSubmit={handleUpload} className="flex gap-4">
-          <input value={uploadUrl} onChange={(e) => setUploadUrl(e.target.value)} placeholder="https://example.com/image.png" required className="flex-1 px-4 py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-primary/50 text-text" />
-          <button type="submit" disabled={isUploading} className="px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary-dark transition-all flex items-center gap-2 shrink-0">
+        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2"><UploadCloud size={20} /> Upload Image</h3>
+        <form onSubmit={handleUpload} className="flex gap-4 items-center">
+          <input type="file" accept="image/*" onChange={(e) => setFileInput(e.target.files ? e.target.files[0] : null)} required className="flex-1 px-4 py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-primary/50 text-text" />
+          <button type="submit" disabled={isUploading || !fileInput} className="px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary-dark transition-all flex items-center gap-2 shrink-0">
             {isUploading ? <Loader2 className="animate-spin" size={18} /> : 'Upload'}
           </button>
         </form>

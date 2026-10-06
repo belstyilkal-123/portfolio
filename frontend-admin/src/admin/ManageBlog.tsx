@@ -15,6 +15,7 @@ export const ManageBlog: React.FC = () => {
   const [coverImage, setCoverImage] = useState('');
   const [tags, setTags] = useState('');
   const [isPublished, setIsPublished] = useState(false);
+  const [publishedDate, setPublishedDate] = useState('');
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
@@ -41,6 +42,7 @@ export const ManageBlog: React.FC = () => {
     setCoverImage('');
     setTags('');
     setIsPublished(false);
+    setPublishedDate('');
   };
 
   const handleTitleChange = (val: string) => {
@@ -61,7 +63,8 @@ export const ManageBlog: React.FC = () => {
       content,
       coverImage,
       tags: tags.split(',').map(t => t.trim()).filter(Boolean),
-      isPublished
+      isPublished,
+      publishedDate: publishedDate || undefined
     };
 
     try {
@@ -90,6 +93,7 @@ export const ManageBlog: React.FC = () => {
     setCoverImage(blog.coverImage || '');
     setTags((blog.tags || []).join(', '));
     setIsPublished(!!blog.isPublished);
+    setPublishedDate(blog.publishedDate ? new Date(blog.publishedDate).toISOString().split('T')[0] : '');
     setIsAdding(true);
   };
 
@@ -153,9 +157,15 @@ export const ManageBlog: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex items-center gap-3 py-2">
-              <input type="checkbox" id="publish" checked={isPublished} onChange={(e) => setIsPublished(e.target.checked)} className="w-4 h-4 text-primary bg-zinc-100 border-zinc-300 rounded focus:ring-primary dark:bg-zinc-800 dark:border-zinc-600" />
-              <label htmlFor="publish" className="text-sm font-medium text-text-muted">Publish this post</label>
+            <div className="flex items-center py-2">
+              <div className="flex items-center gap-3">
+                <input type="checkbox" id="publish" checked={isPublished} onChange={(e) => setIsPublished(e.target.checked)} className="w-4 h-4 text-primary bg-zinc-100 border-zinc-300 rounded focus:ring-primary dark:bg-zinc-800 dark:border-zinc-600" />
+                <label htmlFor="publish" className="text-sm font-medium text-text-muted">Publish this post</label>
+              </div>
+              <div className="flex items-center gap-3 ml-auto">
+                <label className="text-sm font-medium text-text-muted">Date:</label>
+                <input type="date" value={publishedDate} onChange={(e) => setPublishedDate(e.target.value)} className="px-3 py-2 rounded-lg bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm text-text" />
+              </div>
             </div>
 
             <div className="flex justify-end gap-3 pt-3 border-t border-border dark:border-border-dark">
@@ -182,7 +192,7 @@ export const ManageBlog: React.FC = () => {
               <tr className="bg-zinc-50 dark:bg-zinc-900 border-b border-border dark:border-border-dark">
                 <th className="p-4 font-semibold text-sm">Title</th>
                 <th className="p-4 font-semibold text-sm">Status</th>
-                <th className="p-4 font-semibold text-sm">Created Date</th>
+                <th className="p-4 font-semibold text-sm">Date</th>
                 <th className="p-4 font-semibold text-sm text-right">Actions</th>
               </tr>
             </thead>
@@ -195,7 +205,7 @@ export const ManageBlog: React.FC = () => {
                       {blog.isPublished ? 'Published' : 'Draft'}
                     </span>
                   </td>
-                  <td className="p-4 text-sm text-text-muted">{new Date(blog.createdAt || Date.now()).toLocaleDateString()}</td>
+                  <td className="p-4 text-sm text-text-muted">{new Date(blog.publishedDate || blog.createdAt || Date.now()).toLocaleDateString()}</td>
                   <td className="p-4 text-right">
                     <div className="inline-flex items-center gap-2">
                       <button onClick={() => handleEdit(blog)} className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-border text-text-muted hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"><Edit3 size={16} /> Edit</button>

@@ -5,9 +5,10 @@ This repository contains a professional portfolio website with separated fronten
 ## Repository structure
 
 - `frontend/`
-  - React + Vite portfolio application
+  - React + Vite portfolio application (public facing)
   - Public portfolio pages in `frontend/src/pages/`
-  - Admin portal pages in `frontend/src/admin/`
+- `frontend-admin/`
+  - React + Vite Admin dashboard application
 - `backend/`
   - Express API with authentication, project management, and message handling
 - `dist/`
@@ -17,9 +18,9 @@ This repository contains a professional portfolio website with separated fronten
 
 - `frontend/src/pages/`
   - Public portfolio pages: `Dashboard`, `About`, `Projects`, `Skills`, `Contact`, and more.
-- `frontend/src/admin/`
+- `frontend-admin/src/admin/`
   - Admin portal pages: `Login`, `Register`, `AdminDashboard`, `ManageProjects`, `ManageMessages`.
-- `frontend/src/layouts/`
+- `frontend*/src/layouts/`
   - Shared layout components for public pages and admin UI.
 
 ## Admin portal
@@ -48,6 +49,12 @@ Start frontend and backend together:
 npm run dev
 ```
 
+To start all three services (frontend, backend, AND the admin portal):
+
+```bash
+npm run dev:all
+```
+
 Seed the backend sample data and create the default admin user:
 
 ```bash
@@ -58,6 +65,7 @@ Or run individually:
 
 ```bash
 npm run dev:frontend
+npm run dev:admin
 npm run dev:backend
 ```
 

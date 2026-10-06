@@ -2,26 +2,14 @@ import { motion } from 'framer-motion';
 import { fadeUp } from '../animations/variants';
 import { Card, CardContent } from '../components/ui/Card';
 
-const faqs = [
-  {
-    question: "What is your primary tech stack?",
-    answer: "I specialize in the MERN stack (MongoDB, Express, React, Node.js) but I also have extensive experience with Next.js, PostgreSQL, and TypeScript."
-  },
-  {
-    question: "Do you take on freelance projects?",
-    answer: "Yes, I am currently open to freelance opportunities depending on the scope and timeline. Please use the Contact form to get in touch."
-  },
-  {
-    question: "How do you handle state management in large React apps?",
-    answer: "I typically use a combination of Zustand for global UI state and React Query (TanStack Query) for server state, caching, and data synchronization."
-  },
-  {
-    question: "What is your approach to testing?",
-    answer: "I follow a Test-Driven Development (TDD) approach where appropriate, using Jest and React Testing Library for unit and integration tests, and Cypress for E2E testing."
-  }
-];
+import { useFAQs } from '../hooks/useContent';
 
 export function FAQ() {
+  const { data: faqs = [], isLoading } = useFAQs();
+
+  if (isLoading) {
+    return <div className="py-20 flex justify-center"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div></div>;
+  }
   return (
     <motion.div 
       initial="hidden"
@@ -35,8 +23,8 @@ export function FAQ() {
       </header>
 
       <div className="space-y-4">
-        {faqs.map((faq, index) => (
-          <Card key={index} className="overflow-hidden hover:border-primary/50 transition-colors">
+        {faqs.map((faq) => (
+          <Card key={faq._id} className="overflow-hidden hover:border-primary/50 transition-colors">
             <CardContent className="p-6">
               <h3 className="text-lg font-semibold mb-2">{faq.question}</h3>
               <p className="text-text-muted text-sm leading-relaxed">{faq.answer}</p>

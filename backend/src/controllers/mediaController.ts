@@ -18,18 +18,28 @@ export const getMedia = async (req: Request, res: Response): Promise<void> => {
 
 export const uploadMedia = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { fileUrl, folder } = req.body;
-    if (!fileUrl) {
+    const file = req.file;
+    const { folder } = req.body;
+    
+    if (!file) {
       res.status(400).json({ message: 'No file provided' });
       return;
     }
 
-    const result = await cloudinary.uploader.upload(fileUrl, {
-      folder: folder || 'portfolio',
-    });
+    const uploadStream = cloudinary.uploader.upload_stream(
+      { folder: folder || 'portfolio' },
+      (error, result) => {
+        if (error) {
+          console.error(error);
+          return res.status(500).json({ message: 'Cloudinary upload failed' });
+        }
+        res.json(result);
+      }
+    );
 
-    res.json(result);
+    uploadStream.end(file.buffer);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: 'Server Error' });
   }
 };

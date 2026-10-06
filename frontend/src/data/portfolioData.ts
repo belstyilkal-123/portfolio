@@ -6,6 +6,7 @@ export const personalInfo = {
   location: "Bahir Dar, Ethiopia",
   github: "https://github.com/belstyilkal-123",
   linkedin: "",
+  instagram: "https://www.instagram.com/yilkal3555/",
   email: "belstyilkal@gmail.com",
   telegram: "https://t.me/manchilot123"
 };

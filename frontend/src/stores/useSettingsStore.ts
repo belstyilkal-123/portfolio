@@ -10,7 +10,10 @@ interface SettingsState {
 export const useSettingsStore = create<SettingsState>((set, get) => ({
   settings: {},
   setSettings: (settings) => set({ settings }),
-  getSetting: (key, defaultValue = '') => get().settings[key] || defaultValue,
+  getSetting: (key, defaultValue = '') => {
+    const val = get().settings[key];
+    return val !== undefined ? val : defaultValue;
+  },
   isSectionHidden: (sectionLabel) => {
     const hiddenStr = get().settings['hiddenSections'] || '';
     const hiddenArr = hiddenStr.split(',').map(s => s.trim().toLowerCase());

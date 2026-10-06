@@ -1,13 +1,19 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Mail, MapPin, Send, CheckCircle2, Loader2 } from 'lucide-react';
-import { personalInfo } from '../data/portfolioData';
+
 import { useForm } from 'react-hook-form';
 import { useSendMessage } from '../hooks/useMessages';
+import { useSettingsStore } from '../stores/useSettingsStore';
 
 export const Contact: React.FC = () => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const { mutate: sendMessage, isPending, isSuccess, isError } = useSendMessage();
+  const { getSetting } = useSettingsStore();
+
+  const email = getSetting('email', 'belstyilkal@gmail.com');
+  const location = getSetting('location', 'Bahir Dar, Ethiopia');
+  const telegram = getSetting('telegramUrl', '');
 
   const onSubmit = (data: any) => {
     sendMessage(data, {
@@ -45,8 +51,8 @@ export const Contact: React.FC = () => {
             <div>
               <h3 className="font-semibold text-lg mb-1">Email</h3>
               <p className="text-text-muted text-sm mb-2">Professional inquiries and project requests.</p>
-              <a href={`mailto:${personalInfo.email}`} className="text-primary hover:underline font-medium">
-                {personalInfo.email}
+              <a href={`mailto:${email}`} className="text-primary hover:underline font-medium">
+                {email}
               </a>
             </div>
           </div>
@@ -58,11 +64,11 @@ export const Contact: React.FC = () => {
             <div>
               <h3 className="font-semibold text-lg mb-1">Location</h3>
               <p className="text-text-muted text-sm mb-2">Available for remote, hybrid, and local work.</p>
-              <span className="font-medium">{personalInfo.location}</span>
+              <span className="font-medium">{location}</span>
             </div>
           </div>
 
-          {personalInfo.telegram && (
+          {telegram && (
             <div className="glass p-6 rounded-2xl flex items-start gap-4">
               <div className="p-3 bg-accent/10 text-accent rounded-xl shrink-0">
                 <Send size={24} />
@@ -70,7 +76,7 @@ export const Contact: React.FC = () => {
               <div>
                 <h3 className="font-semibold text-lg mb-1">Instant contact</h3>
                 <p className="text-text-muted text-sm mb-2">Quick updates and follow-ups on Telegram.</p>
-                <a href={personalInfo.telegram} target="_blank" rel="noreferrer" className="text-primary hover:underline font-medium">
+                <a href={telegram} target="_blank" rel="noreferrer" className="text-primary hover:underline font-medium">
                   Send a message
                 </a>
               </div>

@@ -1,69 +1,16 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Download, FileText, File, Image, Code2, ExternalLink, HardDrive, Shield, Clock } from 'lucide-react';
+import { Download, File, ExternalLink, HardDrive, Shield, Clock } from 'lucide-react';
 
-const downloads = [
-  {
-    id: 1,
-    name: 'Resume / CV',
-    description: 'My latest professional resume including skills, experience, and education. Updated August 2025.',
-    size: '245 KB',
-    type: 'PDF',
-    icon: FileText,
-    iconColor: 'text-red-500',
-    iconBg: 'bg-red-500/10',
-    badge: 'Most Popular',
-    badgeColor: 'bg-primary/10 text-primary',
-    url: '/resume.pdf',
-    fileName: 'Belstie_Yilkal_Resume.pdf',
-    updatedAt: 'Aug 2025'
-  },
-  {
-    id: 2,
-    name: 'Portfolio Brief',
-    description: 'A concise 1-page overview of my top projects and key achievements, ideal for quick reference.',
-    size: '180 KB',
-    type: 'PDF',
-    icon: File,
-    iconColor: 'text-blue-500',
-    iconBg: 'bg-blue-500/10',
-    badge: 'New',
-    badgeColor: 'bg-blue-500/10 text-blue-500',
-    url: '#',
-    fileName: 'Belstie_Yilkal_Portfolio_Brief.pdf',
-    updatedAt: 'Jul 2025'
-  },
-  {
-    id: 3,
-    name: 'Project Showcase',
-    description: 'Detailed case studies for the Smart Irrigation System, EthioSearch Engine, and Stadium Manager.',
-    size: '1.2 MB',
-    type: 'PDF',
-    icon: Code2,
-    iconColor: 'text-emerald-500',
-    iconBg: 'bg-emerald-500/10',
-    badge: null,
-    badgeColor: '',
-    url: '#',
-    fileName: 'Belstie_Yilkal_Projects.pdf',
-    updatedAt: 'Jun 2025'
-  },
-  {
-    id: 4,
-    name: 'Profile Photo (High-Res)',
-    description: 'High-resolution professional profile photo for media kits, publications, or events.',
-    size: '3.4 MB',
-    type: 'PNG',
-    icon: Image,
-    iconColor: 'text-purple-500',
-    iconBg: 'bg-purple-500/10',
-    badge: null,
-    badgeColor: '',
-    url: '#',
-    fileName: 'Belstie_Yilkal_Photo.png',
-    updatedAt: 'Mar 2025'
+import { useDownloads } from '../hooks/useContent';
+import * as Icons from 'lucide-react';
+
+export const Downloads: React.FC = () => {
+  const { data: downloads = [], isLoading } = useDownloads();
+
+  if (isLoading) {
+    return <div className="py-20 flex justify-center"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div></div>;
   }
-];
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -75,7 +22,6 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
 };
 
-export const Downloads: React.FC = () => {
   return (
     <div className="py-8">
       {/* Header */}
@@ -124,9 +70,11 @@ export const Downloads: React.FC = () => {
         animate="visible"
         className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-5xl mx-auto"
       >
-        {downloads.map((file) => (
+        {downloads.map((file) => {
+          const IconComponent = (Icons as any)[file.icon] || Icons.FileText;
+          return (
           <motion.div
-            key={file.id}
+            key={file._id}
             variants={itemVariants}
             whileHover={{ y: -4 }}
             className="glass-panel rounded-3xl p-7 border border-border dark:border-zinc-800/80 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-300 flex flex-col gap-5"
@@ -134,7 +82,7 @@ export const Downloads: React.FC = () => {
             <div className="flex items-start justify-between">
               <div className="flex items-start gap-4">
                 <div className={`p-4 rounded-2xl ${file.iconBg} ${file.iconColor} shrink-0`}>
-                  <file.icon size={28} />
+                  <IconComponent size={28} />
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-1">
@@ -184,7 +132,7 @@ export const Downloads: React.FC = () => {
               </a>
             </div>
           </motion.div>
-        ))}
+        )})}
       </motion.div>
 
       {/* Footer note */}
