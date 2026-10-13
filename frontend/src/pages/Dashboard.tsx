@@ -106,7 +106,7 @@ export const Dashboard: React.FC = () => {
             </div>
 
             <div>
-              <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight leading-tight">
+              <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-tight">
                 Hi <motion.span
                       className="inline-block origin-[70%_70%]"
                       animate={{ rotate: [0, 14, -8, 14, -4, 10, 0, 0] }}

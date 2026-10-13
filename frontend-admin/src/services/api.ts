@@ -12,8 +12,6 @@ const DEV_BACKEND  = 'http://localhost:5000/api';
  *   wrongly-formatted value that would cause axios to build nonsense URLs.
  */
 function resolveBaseURL(): string {
-  if (import.meta.env.DEV) return DEV_BACKEND;
-
   let envVal = (import.meta.env.VITE_API_URL ?? '').trim();
   
   // Clean up potential markdown link or bracket formatting
@@ -30,6 +28,8 @@ function resolveBaseURL(): string {
   } catch {
     // not a valid absolute URL – fall through
   }
+
+  if (import.meta.env.DEV) return DEV_BACKEND;
 
   return PROD_BACKEND;
 }

@@ -4,8 +4,6 @@ const PROD_BACKEND = 'https://portfolio-backend-5y1o.onrender.com/api';
 const DEV_BACKEND  = 'http://localhost:5000/api';
 
 function resolveBaseURL(): string {
-  if (import.meta.env.DEV) return DEV_BACKEND;
-
   let envVal = (import.meta.env.VITE_API_URL ?? '').trim();
   
   // Clean up potential markdown link or bracket formatting
@@ -22,6 +20,8 @@ function resolveBaseURL(): string {
   } catch {
     // fall through
   }
+
+  if (import.meta.env.DEV) return DEV_BACKEND;
 
   return PROD_BACKEND;
 }

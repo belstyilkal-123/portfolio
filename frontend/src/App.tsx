@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { AppLayout } from './layouts/AppLayout';
 import { Dashboard } from './pages/Dashboard';
 import { About } from './pages/About';
@@ -24,12 +24,10 @@ import { Settings } from './pages/SettingsPage';
 import { NotFound } from './pages/NotFound';
 import { useUIStore } from './stores/useUIStore';
 
-// Helper for AnimatePresence logic
 function PortfolioRoutes() {
-  const location = useLocation();
   return (
     <AppLayout>
-      <Routes location={location} key={location.pathname}>
+      <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/about" element={<About />} />
         <Route path="/skills" element={<Skills />} />

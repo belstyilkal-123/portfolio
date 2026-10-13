@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Menu, Sun, Moon, Monitor, Download, X, ChevronDown, Volume2, VolumeX, Search } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useLocation } from 'react-router-dom';
 import { useUIStore } from '../stores/useUIStore';
 import { useSettingsStore } from '../stores/useSettingsStore';
 import { usePopSound } from '../hooks/usePopSound';
@@ -10,11 +10,59 @@ export const Header: React.FC = () => {
   const { theme, setTheme, soundEnabled, toggleSound, setSearchOpen } = useUIStore();
   const { getSetting } = useSettingsStore();
   const playPop = usePopSound();
+  const location = useLocation();
   
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   
   const name = getSetting('name', 'Belstie Yilkal');
+
+  // Close menus when route changes
+  useEffect(() => {
+    setDropdownOpen(false);
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
+
+  // Click outside to close dropdown & escape key support
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setDropdownOpen(false);
+        setMobileMenuOpen(false);
+      }
+    };
+
+    if (dropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('touchstart', handleClickOutside);
+    }
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [dropdownOpen]);
+
+  // Prevent background scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
 
   const cycleTheme = () => {
     playPop();
@@ -31,19 +79,34 @@ export const Header: React.FC = () => {
   ];
 
   const moreLinks = [
-    { name: 'Education', path: '/education' },
     { name: 'Skills', path: '/skills' },
+    { name: 'Education', path: '/education' },
     { name: 'Certificates', path: '/certificates' },
+    { name: 'Services', path: '/services' },
+    { name: 'Timeline', path: '/timeline' },
     { name: 'Gallery', path: '/gallery' },
+    { name: 'Achievements', path: '/achievements' },
     { name: 'Contact', path: '/contact' },
   ];
 
+  const mobileNavLinks = [
+    { name: 'Home', path: '/' },
+    ...navLinks,
+    ...moreLinks,
+  ];
+
+  const isMoreActive = moreLinks.some((l) => location.pathname === l.path);
+
   return (
-    <header className="sticky top-0 z-50 flex items-center justify-center h-20 px-6 bg-surface/80 dark:bg-surface-dark/80 backdrop-blur-xl border-b border-border dark:border-border-dark">
+    <header className="sticky top-0 z-50 flex items-center justify-center h-20 px-4 sm:px-6 bg-surface/80 dark:bg-surface-dark/80 backdrop-blur-xl border-b border-border dark:border-border-dark">
       <div className="w-full max-w-5xl flex items-center justify-between">
         
         {/* Logo */}
-        <Link to="/" className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent hover:scale-105 transition-transform" onClick={playPop}>
+        <Link 
+          to="/" 
+          className="font-extrabold text-lg sm:text-xl tracking-tight bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent hover:scale-105 transition-transform" 
+          onClick={playPop}
+        >
           {name}
         </Link>
 
@@ -67,41 +130,57 @@ export const Header: React.FC = () => {
           ))}
           
           {/* More Dropdown */}
-          <div className="relative" onMouseLeave={() => setDropdownOpen(false)}>
+          <div 
+            ref={dropdownRef} 
+            className="relative"
+            onMouseEnter={() => setDropdownOpen(true)}
+            onMouseLeave={() => setDropdownOpen(false)}
+          >
             <button 
-              onMouseEnter={() => setDropdownOpen(true)}
-              onClick={() => { playPop(); setDropdownOpen(!dropdownOpen); }}
-              className="flex items-center gap-1 px-4 py-2 rounded-full text-text-muted hover:text-text hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+              type="button"
+              onClick={() => { playPop(); setDropdownOpen((prev) => !prev); }}
+              aria-expanded={dropdownOpen}
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-full transition-colors ${
+                isMoreActive || dropdownOpen
+                  ? 'bg-primary/10 text-primary'
+                  : 'text-text-muted hover:text-text hover:bg-zinc-100 dark:hover:bg-zinc-800'
+              }`}
             >
-              More <ChevronDown size={14} className={`transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
+              <span>More</span>
+              <ChevronDown 
+                size={14} 
+                className={`transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} 
+              />
             </button>
 
             <AnimatePresence>
               {dropdownOpen && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                  transition={{ duration: 0.15 }}
-                  className="absolute top-full right-0 mt-2 w-48 bg-surface dark:bg-surface-dark border border-border dark:border-border-dark rounded-2xl shadow-xl overflow-hidden py-2"
-                >
-                  {moreLinks.map((link) => (
-                    <NavLink
-                      key={link.name}
-                      to={link.path}
-                      onClick={() => { playPop(); setDropdownOpen(false); }}
-                      className={({ isActive }) =>
-                        `block px-4 py-2 text-sm transition-colors ${
-                          isActive 
-                            ? 'text-primary bg-primary/5' 
-                            : 'text-text-muted hover:text-text hover:bg-zinc-100 dark:hover:bg-zinc-800'
-                        }`
-                      }
-                    >
-                      {link.name}
-                    </NavLink>
-                  ))}
-                </motion.div>
+                <div className="absolute top-full right-0 pt-2 w-52 z-50">
+                  <motion.div 
+                    initial={{ opacity: 0, y: 6, scale: 0.96 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 6, scale: 0.96 }}
+                    transition={{ duration: 0.15, ease: 'easeOut' }}
+                    className="bg-surface dark:bg-surface-dark border border-border dark:border-border-dark rounded-2xl shadow-2xl overflow-hidden py-1.5 backdrop-blur-xl"
+                  >
+                    {moreLinks.map((link) => (
+                      <NavLink
+                        key={link.name}
+                        to={link.path}
+                        onClick={() => { playPop(); setDropdownOpen(false); }}
+                        className={({ isActive }) =>
+                          `block px-4 py-2 text-sm transition-colors ${
+                            isActive 
+                              ? 'text-primary bg-primary/10 font-semibold' 
+                              : 'text-text-muted hover:text-text hover:bg-zinc-100 dark:hover:bg-zinc-800'
+                          }`
+                        }
+                      >
+                        {link.name}
+                      </NavLink>
+                    ))}
+                  </motion.div>
+                </div>
               )}
             </AnimatePresence>
           </div>
@@ -146,12 +225,12 @@ export const Header: React.FC = () => {
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={theme}
-                initial={{ y: -20, opacity: 0, rotate: -90 }}
+                initial={{ y: -16, opacity: 0, rotate: -90 }}
                 animate={{ y: 0, opacity: 1, rotate: 0 }}
-                exit={{ y: 20, opacity: 0, rotate: 90 }}
+                exit={{ y: 16, opacity: 0, rotate: 90 }}
                 transition={{ duration: 0.2 }}
               >
-                {theme === 'light' ? <Sun size={20} className="text-accent" /> : theme === 'dark' ? <Moon size={20} className="text-secondary" /> : <Monitor size={20} />}
+                {theme === 'light' ? <Sun size={20} className="text-amber-500" /> : theme === 'dark' ? <Moon size={20} className="text-secondary" /> : <Monitor size={20} />}
               </motion.div>
             </AnimatePresence>
           </motion.button>
@@ -169,10 +248,12 @@ export const Header: React.FC = () => {
 
           {/* Mobile Menu Toggle */}
           <button 
-            onClick={() => setMobileMenuOpen(true)} 
+            type="button"
+            onClick={() => { playPop(); setMobileMenuOpen(true); }} 
             className="md:hidden p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors text-text-muted"
+            aria-label="Open mobile menu"
           >
-            <Menu size={20} />
+            <Menu size={22} />
           </button>
         </div>
       </div>
@@ -181,41 +262,89 @@ export const Header: React.FC = () => {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 z-[100] bg-surface dark:bg-surface-dark flex flex-col p-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[110] bg-surface/95 dark:bg-surface-dark/95 backdrop-blur-2xl flex flex-col p-6"
           >
-            <div className="flex justify-between items-center mb-8">
-              <span className="font-extrabold text-xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                Menu
-              </span>
-              <button 
-                onClick={() => setMobileMenuOpen(false)}
-                className="p-2 rounded-full bg-zinc-100 dark:bg-zinc-800 text-text-muted hover:text-text transition-colors"
+            {/* Mobile Header Bar */}
+            <div className="flex justify-between items-center pb-4 border-b border-border dark:border-border-dark mb-4">
+              <Link 
+                to="/" 
+                onClick={() => { playPop(); setMobileMenuOpen(false); }}
+                className="font-extrabold text-xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
               >
-                <X size={24} />
+                {name}
+              </Link>
+              <button 
+                type="button"
+                onClick={() => { playPop(); setMobileMenuOpen(false); }}
+                className="p-2 rounded-full bg-zinc-100 dark:bg-zinc-800 text-text-muted hover:text-text transition-colors"
+                aria-label="Close menu"
+              >
+                <X size={22} />
               </button>
             </div>
             
-            <nav className="flex flex-col gap-4 overflow-y-auto">
-              {[...navLinks, ...moreLinks].map((link) => (
+            {/* Scrollable Navigation List */}
+            <nav className="flex-1 min-h-0 overflow-y-auto py-2 space-y-1">
+              {mobileNavLinks.map((link) => (
                 <NavLink
                   key={link.name}
                   to={link.path}
                   onClick={() => { playPop(); setMobileMenuOpen(false); }}
                   className={({ isActive }) =>
-                    `text-2xl font-bold p-4 rounded-2xl transition-colors ${
+                    `flex items-center justify-between text-lg font-semibold px-4 py-3 rounded-2xl transition-all ${
                       isActive 
-                        ? 'bg-primary/10 text-primary' 
-                        : 'text-text-muted hover:bg-zinc-50 dark:hover:bg-zinc-800/50 hover:text-text'
+                        ? 'bg-primary/10 text-primary font-bold' 
+                        : 'text-text-muted hover:bg-zinc-100 dark:hover:bg-zinc-800/60 hover:text-text'
                     }`
                   }
                 >
-                  {link.name}
+                  <span>{link.name}</span>
                 </NavLink>
               ))}
             </nav>
+
+            {/* Mobile Menu Bottom Quick Actions */}
+            <div className="pt-4 border-t border-border dark:border-border-dark flex flex-col gap-3">
+              <div className="flex items-center justify-between gap-2">
+                <button
+                  type="button"
+                  onClick={() => { playPop(); setMobileMenuOpen(false); setSearchOpen(true); }}
+                  className="flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-text text-sm font-medium"
+                >
+                  <Search size={16} /> Search
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => { toggleSound(); playPop(); }}
+                  className="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-text-muted hover:text-text"
+                  title="Toggle sound"
+                >
+                  {soundEnabled ? <Volume2 size={18} className="text-primary" /> : <VolumeX size={18} />}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={cycleTheme}
+                  className="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-text-muted hover:text-text"
+                  title="Toggle theme"
+                >
+                  {theme === 'light' ? <Sun size={18} className="text-amber-500" /> : theme === 'dark' ? <Moon size={18} className="text-secondary" /> : <Monitor size={18} />}
+                </button>
+              </div>
+
+              <a
+                href="/resume.pdf"
+                download
+                className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-primary hover:bg-primary-dark text-white rounded-xl font-semibold text-sm shadow-md shadow-primary/20 transition-colors"
+              >
+                <Download size={16} /> Download Resume
+              </a>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

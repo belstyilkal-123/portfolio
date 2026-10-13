@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
+import { motion, useScroll, useSpring } from 'framer-motion';
 import { Header } from './Header';
 import { Footer } from './Footer';
 import { CustomCursor } from '../components/ui/CustomCursor';
@@ -28,9 +28,9 @@ export const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children })
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [setSearchOpen]);
 
-  // Scroll to top on navigation
+  // Scroll to top smoothly on navigation
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [location.pathname]);
 
   return (
@@ -38,23 +38,20 @@ export const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children })
       <CustomCursor />
       <SearchModal isOpen={isSearchOpen} onClose={() => setSearchOpen(false)} />
       <motion.div 
-        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-secondary to-accent origin-left z-[100]" 
+        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-secondary to-accent origin-left z-[90]" 
         style={{ scaleX }} 
       />
       <Header />
       
-      <AnimatePresence mode="wait">
-        <motion.main
-          key={location.pathname}
-          initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
-          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          exit={{ opacity: 0, y: -15, filter: 'blur(4px)' }}
-          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="flex-1 w-full max-w-5xl mx-auto px-6 py-8 md:py-12"
-        >
-          {children}
-        </motion.main>
-      </AnimatePresence>
+      <motion.main
+        key={location.pathname}
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25, ease: 'easeOut' }}
+        className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 py-6 md:py-12"
+      >
+        {children}
+      </motion.main>
       
       <Footer />
     </div>
