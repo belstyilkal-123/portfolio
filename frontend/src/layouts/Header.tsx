@@ -98,8 +98,8 @@ export const Header: React.FC = () => {
   const isMoreActive = moreLinks.some((l) => location.pathname === l.path);
 
   return (
-    <header className="sticky top-0 z-50 flex items-center justify-center h-20 px-4 sm:px-6 bg-surface/80 dark:bg-surface-dark/80 backdrop-blur-xl border-b border-border dark:border-border-dark">
-      <div className="w-full max-w-5xl flex items-center justify-between">
+    <header className="sticky top-0 z-50 flex items-center justify-center h-20 px-4 sm:px-6 lg:px-8 bg-surface/80 dark:bg-surface-dark/80 backdrop-blur-xl border-b border-border dark:border-border-dark">
+      <div className="w-full max-w-6xl flex items-center justify-between">
         
         {/* Logo */}
         <Link 

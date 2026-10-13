@@ -57,10 +57,10 @@ export const Experience: React.FC = () => {
       </motion.div>
 
       <motion.div variants={containerVariants} initial="hidden" animate="visible" className="max-w-4xl mx-auto">
-        <div className="relative border-l-2 border-primary/30 ml-4 md:ml-0 md:pl-8 space-y-12">
+        <div className="relative border-l-2 border-primary/30 ml-5 sm:ml-8 pl-6 sm:pl-10 space-y-10">
           {experienceData.map((exp, idx) => (
-            <motion.div key={idx} variants={itemVariants} className="relative pl-8 md:pl-0">
-              <div className="absolute w-10 h-10 bg-surface dark:bg-surface-dark border-4 border-primary rounded-full -left-[44px] md:-left-[52px] flex items-center justify-center text-primary shadow-lg shadow-primary/20">
+            <motion.div key={idx} variants={itemVariants} className="relative">
+              <div className="absolute top-2 left-0 -translate-x-[calc(50%+1px)] w-9 h-9 sm:w-10 sm:h-10 bg-surface dark:bg-surface-dark border-4 border-primary rounded-full flex items-center justify-center text-primary shadow-md shadow-primary/20 z-10">
                 {renderIcon(exp.icon)}
               </div>
               

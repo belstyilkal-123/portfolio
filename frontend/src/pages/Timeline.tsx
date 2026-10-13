@@ -43,7 +43,7 @@ export const Timeline: React.FC = () => {
                 <IconComponent size={14} />
               </div>
 
-              <div className="glass-panel p-6 rounded-2xl border border-white/10 hover:shadow-xl transition-all duration-300">
+              <div className="glass-panel p-6 rounded-2xl border border-border dark:border-border-dark hover:shadow-xl transition-all duration-300">
                 <span className="inline-block px-3 py-1 bg-zinc-200 dark:bg-zinc-800 text-sm font-semibold rounded-full mb-3">
                   {event.year}
                 </span>

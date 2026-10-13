@@ -103,11 +103,11 @@ export const Resume: React.FC = () => {
         {/* Top color bar */}
         <div className="h-2 w-full bg-gradient-to-r from-primary via-secondary to-accent" />
 
-        <div className="p-8 md:p-12">
+        <div className="p-6 sm:p-8 md:p-12">
           {/* Identity */}
           <motion.div variants={itemVariants} className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-12 pb-8 border-b border-border dark:border-border-dark">
             <div>
-              <h2 className="text-4xl font-extrabold text-text mb-2">{name}</h2>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-text mb-2">{name}</h2>
               <p className="text-xl text-primary font-semibold mb-4">{role}</p>
               <p className="text-text-muted max-w-xl leading-relaxed">{bio}</p>
             </div>

@@ -7,55 +7,65 @@
   --color-secondary: #2563EB;
   --color-accent: #F97316;
   
-  --color-background: #F8FAFC;
-  --color-surface: #FFFFFF;
-  --color-border: #E2E8F0;
+  --color-background: var(--bg);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
   
-  --color-background-dark: #0F172A;
-  --color-surface-dark: #1E293B;
-  --color-border-dark: #334155;
+  --color-background-dark: #090D16;
+  --color-surface-dark: #111827;
+  --color-border-dark: #1E293B;
+
+  --color-bg: var(--bg);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
 }
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
   :root {
-    --bg: var(--color-background);
-    --surface: var(--color-surface);
-    --border: var(--color-border);
+    --bg: #F8FAFC;
+    --surface: #FFFFFF;
+    --border: #E2E8F0;
+    --border-dark: #334155;
     --text: #0F172A;
-    --text-muted: #64748b;
+    --text-muted: #475569;
   }
   
   .dark {
-    --bg: var(--color-background-dark);
-    --surface: var(--color-surface-dark);
-    --border: var(--color-border-dark);
-    --text: #f8fafc;
-    --text-muted: #94a3b8;
+    --bg: #090D16;
+    --surface: #111827;
+    --border: #1E293B;
+    --border-dark: #334155;
+    --text: #F8FAFC;
+    --text-muted: #94A3B8;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
   }
 
   body {
     background-color: var(--bg);
     color: var(--text);
-    font-family: 'Inter', system-ui, sans-serif;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    transition: background-color 0.25s ease, color 0.25s ease;
     overflow-x: hidden;
   }
 }
 
 @layer utilities {
   .glass {
-    @apply bg-white/60 backdrop-blur-lg border border-white/20 shadow-sm;
+    @apply bg-white/75 backdrop-blur-lg border border-zinc-200/60 shadow-sm;
   }
   .dark .glass {
-    @apply bg-zinc-900/60 border-white/5;
+    @apply bg-zinc-900/75 border-zinc-800/60 shadow-none;
   }
   
   .glass-panel {
-    @apply bg-white/80 backdrop-blur-xl border border-zinc-200/50 shadow-lg;
+    @apply bg-white/90 backdrop-blur-xl border border-zinc-200/80 shadow-md;
   }
   .dark .glass-panel {
-    @apply bg-zinc-900/80 border-zinc-800/50 shadow-black/50;
+    @apply bg-zinc-900/85 backdrop-blur-xl border border-zinc-800/80 shadow-2xl shadow-black/40;
   }
 }

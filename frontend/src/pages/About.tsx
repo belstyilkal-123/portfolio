@@ -74,13 +74,13 @@ export const About: React.FC = () => {
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7 }}
-          className="glass-panel p-10 rounded-[2rem] border border-border dark:border-border-dark shadow-xl"
+          className="glass-panel p-6 sm:p-8 md:p-10 rounded-2xl sm:rounded-[2rem] border border-border dark:border-border-dark shadow-xl"
         >
-          <h2 className="text-3xl md:text-4xl font-extrabold mb-8 leading-tight bg-gradient-to-br from-text to-text-muted bg-clip-text text-transparent dark:from-white dark:to-zinc-400">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-6 md:mb-8 leading-tight bg-gradient-to-br from-text to-text-muted bg-clip-text text-transparent dark:from-white dark:to-zinc-400">
             {aboutHeading}
           </h2>
           <div className="prose prose-lg dark:prose-invert max-w-none">
-            <p className="text-lg md:text-xl text-text-muted leading-loose whitespace-pre-wrap font-medium">
+            <p className="text-base sm:text-lg md:text-xl text-text-muted leading-relaxed whitespace-pre-wrap font-medium">
               {bio}
             </p>
           </div>

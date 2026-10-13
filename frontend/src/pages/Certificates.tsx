@@ -51,7 +51,7 @@ export const Certificates: React.FC = () => {
 
       <motion.div variants={containerVariants} initial="hidden" animate="visible" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {certificatesData.map((cert, idx) => (
-          <motion.div key={idx} variants={itemVariants} className="glass-panel group overflow-hidden rounded-2xl flex flex-col h-full border border-white/10 hover:border-primary/50 transition-colors">
+          <motion.div key={idx} variants={itemVariants} className="glass-panel group overflow-hidden rounded-2xl flex flex-col h-full border border-border dark:border-border-dark hover:border-primary/50 transition-colors">
             <div className="relative h-48 overflow-hidden bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
               {cert.image ? (
                 <img src={cert.image} alt={cert.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
