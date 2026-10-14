@@ -41,8 +41,14 @@
     --text-muted: #94A3B8;
   }
 
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
   * {
     -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
   }
 
   body {
@@ -51,21 +57,87 @@
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     transition: background-color 0.25s ease, color 0.25s ease;
     overflow-x: hidden;
+    width: 100%;
+    min-height: 100vh;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Custom Modern Scrollbars for desktop */
+  @media (pointer: fine) {
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.35);
+      border-radius: 9999px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(148, 163, 184, 0.6);
+    }
+
+    .dark ::-webkit-scrollbar-thumb {
+      background: rgba(51, 65, 85, 0.5);
+    }
+
+    .dark ::-webkit-scrollbar-thumb:hover {
+      background: rgba(71, 85, 105, 0.8);
+    }
+  }
+
+  /* Mobile input sizing fix to avoid iOS auto-zoom */
+  input, select, textarea {
+    font-size: 16px;
+  }
+  @media (min-width: 640px) {
+    input, select, textarea {
+      font-size: inherit;
+    }
   }
 }
 
 @layer utilities {
   .glass {
-    @apply bg-white/75 backdrop-blur-lg border border-zinc-200/60 shadow-sm;
-  }
-  .dark .glass {
-    @apply bg-zinc-900/75 border-zinc-800/60 shadow-none;
+    @apply bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl border border-zinc-200/70 dark:border-zinc-800/70 shadow-sm;
   }
   
   .glass-panel {
-    @apply bg-white/90 backdrop-blur-xl border border-zinc-200/80 shadow-md;
+    @apply bg-white/90 dark:bg-zinc-900/90 backdrop-blur-2xl border border-zinc-200/80 dark:border-zinc-800/80 shadow-lg dark:shadow-2xl dark:shadow-black/40;
   }
-  .dark .glass-panel {
-    @apply bg-zinc-900/85 backdrop-blur-xl border border-zinc-800/80 shadow-2xl shadow-black/40;
+
+  .glow-card {
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .glow-card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(37, 99, 235, 0.15), transparent 70%);
+    border-radius: inherit;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .glow-card:hover::before {
+    opacity: 1;
+  }
+
+  /* Safe area padding for notched mobile displays */
+  .pb-safe {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+  .pt-safe {
+    padding-top: max(1rem, env(safe-area-inset-top));
   }
 }

@@ -57,7 +57,7 @@ export const CustomCursor: React.FC = () => {
 
   return (
     <motion.div
-      className="pointer-events-none fixed top-0 left-0 z-[9999] hidden md:flex items-center justify-center mix-blend-difference"
+      className="pointer-events-none fixed top-0 left-0 z-[9999] hidden lg:flex items-center justify-center mix-blend-difference"
       style={{
         x: cursorXSpring,
         y: cursorYSpring,

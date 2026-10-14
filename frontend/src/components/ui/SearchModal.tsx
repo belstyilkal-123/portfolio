@@ -92,10 +92,10 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -20 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className="fixed top-[10%] left-1/2 -translate-x-1/2 w-[90%] max-w-2xl z-[210] bg-surface dark:bg-surface-dark rounded-2xl shadow-2xl border border-border dark:border-border-dark overflow-hidden flex flex-col max-h-[80vh]"
+            className="fixed top-4 sm:top-[10%] left-1/2 -translate-x-1/2 w-[94%] sm:w-[90%] max-w-2xl z-[210] bg-surface dark:bg-surface-dark rounded-2xl sm:rounded-3xl shadow-2xl border border-border dark:border-border-dark overflow-hidden flex flex-col max-h-[90vh] sm:max-h-[80vh]"
           >
             {/* Search Input */}
-            <div className="flex items-center px-4 py-4 border-b border-border dark:border-border-dark bg-white/50 dark:bg-black/20">
+            <div className="flex items-center px-3.5 sm:px-4 py-3 sm:py-4 border-b border-border dark:border-border-dark bg-white/50 dark:bg-black/20">
               <Search className="text-text-muted mr-3" size={20} />
               <input
                 ref={inputRef}
@@ -182,7 +182,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
             </div>
 
             {/* Footer */}
-            <div className="px-4 py-3 border-t border-border dark:border-border-dark bg-zinc-50 dark:bg-zinc-900 flex justify-between items-center text-xs text-text-muted">
+            <div className="hidden sm:flex px-4 py-3 border-t border-border dark:border-border-dark bg-zinc-50 dark:bg-zinc-900 justify-between items-center text-xs text-text-muted">
               <span className="flex items-center gap-2">
                 Use <kbd className="px-1.5 py-0.5 rounded-md bg-zinc-200 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 font-sans font-medium">↑</kbd> <kbd className="px-1.5 py-0.5 rounded-md bg-zinc-200 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 font-sans font-medium">↓</kbd> to navigate
               </span>
